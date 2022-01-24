@@ -2,8 +2,14 @@ package dev.rachamon.yanamibot;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import dev.rachamon.yanamibot.api.services.YanamiBotService;
+import dev.rachamon.yanamibot.configs.LanguageConfig;
+import dev.rachamon.yanamibot.configs.MainConfig;
+import dev.rachamon.yanamibot.managers.BotManager;
+import dev.rachamon.yanamibot.managers.YanamiBotPluginManager;
+import dev.rachamon.yanamibot.utils.LoggerUtil;
 import ninja.leaping.configurate.objectmapping.GuiceObjectMapperFactory;
-import org.slf4j.Logger;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
@@ -23,9 +29,10 @@ public class YanamiBot {
     private static boolean isInitialized = false;
 
     private Components components;
-
-    @Inject
-    private Logger logger;
+    private MainConfig config;
+    private LanguageConfig language;
+    private LoggerUtil logger;
+    private YanamiBotPluginManager yanamiBotPluginManager;
 
     @Inject
     Injector spongeInjector;
@@ -34,7 +41,7 @@ public class YanamiBot {
     private GuiceObjectMapperFactory factory;
 
     @Inject
-    private Injector guildInjector;
+    private Injector botInjector;
 
     @Inject
     @ConfigDir(sharedRoot = false)
@@ -45,29 +52,41 @@ public class YanamiBot {
 
     @Listener
     public void onPreInitialize(GamePreInitializationEvent event) {
+        instance = this;
+        this.setLogger(new LoggerUtil(Sponge.getServer()));
+        this.setYanamiBotPluginManager(new YanamiBotPluginManager());
+
+        this.getPluginManager().preInitialize();
+        this.getLogger().info("On Pre Initialize YanamiBot...");
     }
 
     @Listener(order = Order.EARLY)
     public void onInitialize(GameInitializationEvent event) {
+        getInstance().getLogger().info("On Initialize YanamiBot...");
+        getInstance().getPluginManager().initialize();
     }
 
     @Listener
     public void onStart(GameStartedServerEvent event) {
+        if (!this.isInitialized()) return;
+        getInstance().getLogger().info("On Start YanamiBot...");
+        getInstance().getPluginManager().start();
+        this.getLogger().info(String.valueOf(getInstance().getConfig().getMainCategorySetting().isDebug()));
+        this.getLogger().info(String.valueOf(getInstance().getLanguage().getMainCategorySetting().isDebug()));
     }
 
     @Listener
     public void onPostInitialize(GamePostInitializationEvent event) {
+        getInstance().getLogger().info("On Post Initialize YanamiBot");
+        getInstance().getPluginManager().postInitialize();
     }
 
     public static YanamiBot getInstance() {
         return instance;
     }
 
-    public static void setInstance(YanamiBot instance) {
-        YanamiBot.instance = instance;
-    }
 
-    public boolean isIsInitialized() {
+    public boolean isInitialized() {
         return isInitialized;
     }
 
@@ -75,11 +94,11 @@ public class YanamiBot {
         YanamiBot.isInitialized = isInitialized;
     }
 
-    public Logger getLogger() {
+    public LoggerUtil getLogger() {
         return logger;
     }
 
-    public void setLogger(Logger logger) {
+    public void setLogger(LoggerUtil logger) {
         this.logger = logger;
     }
 
@@ -87,24 +106,12 @@ public class YanamiBot {
         return spongeInjector;
     }
 
-    public void setSpongeInjector(Injector spongeInjector) {
-        this.spongeInjector = spongeInjector;
-    }
-
     public Path getDirectory() {
         return directory;
     }
 
-    public void setDirectory(Path directory) {
-        this.directory = directory;
-    }
-
     public PluginContainer getContainer() {
         return container;
-    }
-
-    public void setContainer(PluginContainer container) {
-        this.container = container;
     }
 
     public GuiceObjectMapperFactory getFactory() {
@@ -115,12 +122,12 @@ public class YanamiBot {
         this.factory = factory;
     }
 
-    public Injector getGuildInjector() {
-        return guildInjector;
+    public Injector getBotInjector() {
+        return botInjector;
     }
 
-    public void setGuildInjector(Injector guildInjector) {
-        this.guildInjector = guildInjector;
+    public void setBotInjector(Injector botInjector) {
+        this.botInjector = botInjector;
     }
 
     public Components getComponents() {
@@ -131,7 +138,44 @@ public class YanamiBot {
         this.components = components;
     }
 
-    public static class Components {
+    public BotManager getBotManager() {
+        return this.components.botManager;
+    }
 
+    public YanamiBotService getBotService() {
+        return this.components.botService;
+    }
+
+    public MainConfig getConfig() {
+        return config;
+    }
+
+    public void setConfig(MainConfig config) {
+        this.config = config;
+    }
+
+    public LanguageConfig getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(LanguageConfig language) {
+        this.language = language;
+    }
+
+
+    public YanamiBotPluginManager getPluginManager() {
+        return yanamiBotPluginManager;
+    }
+
+    public void setYanamiBotPluginManager(YanamiBotPluginManager yanamiBotPluginManager) {
+        this.yanamiBotPluginManager = yanamiBotPluginManager;
+    }
+
+    public static class Components {
+        @Inject
+        private BotManager botManager;
+
+        @Inject
+        private YanamiBotService botService;
     }
 }
