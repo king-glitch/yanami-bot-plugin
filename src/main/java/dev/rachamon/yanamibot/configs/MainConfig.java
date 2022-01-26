@@ -1,15 +1,10 @@
 package dev.rachamon.yanamibot.configs;
 
-import dev.rachamon.yanamibot.YanamiBot;
-import dev.rachamon.yanamibot.api.abstracts.YanamiBotFileAbstract;
 import ninja.leaping.configurate.objectmapping.Setting;
 import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 
 @ConfigSerializable
-public class MainConfig extends YanamiBotFileAbstract<MainConfig> {
-    public MainConfig(String fileName) {
-        super(YanamiBot.getInstance(), fileName);
-    }
+public class MainConfig {
 
     @Setting(value = "general", comment = "General Settings")
     private final GeneralCategorySetting mainCategorySetting = new GeneralCategorySetting();

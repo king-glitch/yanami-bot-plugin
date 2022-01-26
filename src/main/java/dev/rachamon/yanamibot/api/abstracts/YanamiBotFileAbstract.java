@@ -23,7 +23,7 @@ public class YanamiBotFileAbstract<T> {
 
     private Class<T> clazzType;
     private T clazz;
-    private String name;
+    private final String name;
     private String header;
 
     public YanamiBotFileAbstract(YanamiBot plugin, String fileName) {
@@ -56,17 +56,25 @@ public class YanamiBotFileAbstract<T> {
         return clazz;
     }
 
-    protected void save() {
+    public void save() throws ObjectMappingException, IOException {
         try {
             configRoot.setValue(TypeToken.of(this.getClazzType()), this.getRoot());
             this.configLoader.save(configRoot);
         } catch (IOException | ObjectMappingException e) {
-            this.plugin.getLogger().error(Arrays.toString(e.getStackTrace()));
+//            this.plugin.getLogger().error(e.getMessage());
         }
     }
 
-    protected T getRoot() {
+    public T getRoot() {
         return this.root;
+    }
+
+    public CommentedConfigurationNode getConfigRoot() {
+        return configRoot;
+    }
+
+    public ConfigurationLoader<CommentedConfigurationNode> getConfigLoader() {
+        return configLoader;
     }
 
     public Class<T> getClazzType() {
@@ -91,10 +99,6 @@ public class YanamiBotFileAbstract<T> {
         return this;
     }
 
-    public YanamiBotFileAbstract<T> setName(String name) {
-        this.name = name;
-        return this;
-    }
 
     public YanamiBotFileAbstract<T> setHeader(String header) {
         this.header = header;

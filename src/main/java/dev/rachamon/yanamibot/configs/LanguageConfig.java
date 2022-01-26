@@ -1,30 +1,43 @@
 package dev.rachamon.yanamibot.configs;
 
-import dev.rachamon.yanamibot.YanamiBot;
-import dev.rachamon.yanamibot.api.abstracts.YanamiBotFileAbstract;
 import ninja.leaping.configurate.objectmapping.Setting;
 import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 
 @ConfigSerializable
-public class LanguageConfig extends YanamiBotFileAbstract<LanguageConfig> {
-    public LanguageConfig(String fileName) {
-        super(YanamiBot.getInstance(), fileName);
-    }
+public class LanguageConfig {
 
     @Setting(value = "general", comment = "General Settings")
-    private final LanguageGeneralCategorySetting mainCategorySetting = new LanguageGeneralCategorySetting();
+    private final LanguageGeneralCategory generalCategory = new LanguageGeneralCategory();
 
-    public LanguageGeneralCategorySetting getMainCategorySetting() {
-        return mainCategorySetting;
+    public LanguageGeneralCategory getGeneralCategory() {
+        return generalCategory;
     }
 
     @ConfigSerializable
-    public static class LanguageGeneralCategorySetting {
-        @Setting(comment = "is logging", value = "is-debug")
-        private final boolean isDebug = true;
+    public static class LanguageGeneralCategory {
+        @Setting(comment = "plugin prefix", value = "prefix")
+        private final String prefix = "[&d&l&oYanami] &f";
 
-        public boolean isDebug() {
-            return isDebug;
+        @Setting(comment = "The bot name", value = "bot-name")
+        private final String botName = "&d&l&oYanami";
+
+        @Setting(comment = "message builder\n" +
+                "variables : \n" +
+                " - {bot-name} : the bot name\n" +
+                " - {message} : bot response message\n" +
+                " - {target} : target to response to", value = "message-builder")
+        private final String messageBuilder = "&8[&4&lBOT&8] &8[{bot-name}&8] &a&l@{target}&f, &f{message}";
+
+        public String getBotName() {
+            return botName;
+        }
+
+        public String getMessageBuilder() {
+            return messageBuilder;
+        }
+
+        public String getPrefix() {
+            return prefix;
         }
     }
 }

@@ -2,13 +2,14 @@ package dev.rachamon.yanamibot;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import dev.rachamon.yanamibot.api.abstracts.YanamiBotFileAbstract;
+import dev.rachamon.yanamibot.api.services.YanamiBotCommandService;
 import dev.rachamon.yanamibot.api.services.YanamiBotService;
-import dev.rachamon.yanamibot.configs.LanguageConfig;
-import dev.rachamon.yanamibot.configs.MainConfig;
+import dev.rachamon.yanamibot.configs.*;
 import dev.rachamon.yanamibot.managers.BotManager;
 import dev.rachamon.yanamibot.managers.YanamiBotPluginManager;
 import dev.rachamon.yanamibot.utils.LoggerUtil;
-import ninja.leaping.configurate.objectmapping.GuiceObjectMapperFactory;
+import org.spongepowered.api.Game;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.event.Listener;
@@ -31,6 +32,7 @@ public class YanamiBot {
     private Components components;
     private MainConfig config;
     private LanguageConfig language;
+    private YanamiBotFileAbstract<EventsConfig> events;
     private LoggerUtil logger;
     private YanamiBotPluginManager yanamiBotPluginManager;
 
@@ -38,7 +40,7 @@ public class YanamiBot {
     Injector spongeInjector;
 
     @Inject
-    private GuiceObjectMapperFactory factory;
+    Game game;
 
     @Inject
     private Injector botInjector;
@@ -71,8 +73,6 @@ public class YanamiBot {
         if (!this.isInitialized()) return;
         getInstance().getLogger().info("On Start YanamiBot...");
         getInstance().getPluginManager().start();
-        this.getLogger().info(String.valueOf(getInstance().getConfig().getMainCategorySetting().isDebug()));
-        this.getLogger().info(String.valueOf(getInstance().getLanguage().getMainCategorySetting().isDebug()));
     }
 
     @Listener
@@ -112,14 +112,6 @@ public class YanamiBot {
 
     public PluginContainer getContainer() {
         return container;
-    }
-
-    public GuiceObjectMapperFactory getFactory() {
-        return factory;
-    }
-
-    public void setFactory(GuiceObjectMapperFactory factory) {
-        this.factory = factory;
     }
 
     public Injector getBotInjector() {
@@ -169,6 +161,30 @@ public class YanamiBot {
 
     public void setYanamiBotPluginManager(YanamiBotPluginManager yanamiBotPluginManager) {
         this.yanamiBotPluginManager = yanamiBotPluginManager;
+    }
+
+    public EventsConfig getEventsConfig() {
+        return events.getClazz();
+    }
+
+    public void setEventsConfig(EventsConfig events) {
+        this.events.setClazz(events);
+    }
+
+    public YanamiBotFileAbstract<EventsConfig> getEventsManager() {
+        return events;
+    }
+
+    public void setEventsManager(YanamiBotFileAbstract<EventsConfig> events) {
+        this.events = events;
+    }
+
+    public Game getGame() {
+        return this.game;
+    }
+
+    public YanamiBotCommandService getCommandService() {
+        return YanamiBotCommandService.getInstance();
     }
 
     public static class Components {
