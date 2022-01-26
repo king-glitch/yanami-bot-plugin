@@ -8,7 +8,11 @@ public class LanguageConfig {
 
     @Setting(value = "general", comment = "General Settings")
     private final LanguageGeneralCategory generalCategory = new LanguageGeneralCategory();
+
+    @Setting(value = "commands", comment = "General Settings")
     private final LanguageCommandCategory commandCategory = new LanguageCommandCategory();
+
+    @Setting(value = "question", comment = "General Settings")
     private final QuestionCategory questionCategory = new QuestionCategory();
 
     public LanguageGeneralCategory getGeneralCategory() {
@@ -83,13 +87,13 @@ public class LanguageConfig {
         @Setting(value = "command-remove-successfully")
         private final String commandRemoveSuccessfully = "&fSuccessfully Removed";
         @Setting(value = "command-delete-successfully")
-        private final String commandDeleteSuccessfully = "&ffSuccessfully Deleted";
+        private final String commandDeleteSuccessfully = "&fSuccessfully Deleted";
         @Setting(value = "command-create-successfully")
-        private final String commandCreateSuccessfully = "&ffSuccessfully Created";
+        private final String commandCreateSuccessfully = "&fSuccessfully Created";
         @Setting(value = "command-reload-successfully")
-        private final String commandReloadSuccessfully = "&ffSuccessfully Reload";
+        private final String commandReloadSuccessfully = "&fSuccessfully Reload";
         @Setting(value = "command-set-successfully")
-        private final String commandSetSuccessfully = "&ffSuccessfully Set";
+        private final String commandSetSuccessfully = "&fSuccessfully Set";
 
         public String getCommandSetSuccessfully() {
             return commandSetSuccessfully;
