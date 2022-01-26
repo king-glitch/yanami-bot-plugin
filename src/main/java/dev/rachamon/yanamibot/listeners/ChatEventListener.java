@@ -20,8 +20,6 @@ public class ChatEventListener {
     public void onChat(MessageChannelEvent.Chat event, @Root Player player) {
         List<EventsConfig.ChatResponse> responses = new ArrayList<>(this.plugin.getEventsConfig().getChatResponses().values());
 
-        this.plugin.getLogger().debug(String.valueOf(responses.size()));
-
         Optional<EventsConfig.ChatResponse> firstMatch = responses.stream().filter(m -> m.getRegexes().stream().anyMatch(a -> event.getRawMessage().toPlain().matches(a))).findFirst();
 
         if (!firstMatch.isPresent()) return;
@@ -32,8 +30,12 @@ public class ChatEventListener {
 
         Sponge.getScheduler().createTaskBuilder()
                 .execute(() -> {
-                    Sponge.getServer().getOnlinePlayers().forEach(p -> {
-                        p.sendMessage(YanamiBotUtil.toText(
+                    if (firstMatch.get().getCommands().size() > 0) {
+                        firstMatch.get().getCommands().forEach(command -> {
+                            this.plugin.getGame().getCommandManager().process(Sponge.getServer().getConsole(), command);
+                        });
+
+                        player.sendMessage(YanamiBotUtil.toText(
                                 this.plugin.getLanguage()
                                         .getGeneralCategory()
                                         .getMessageBuilder()
@@ -41,7 +43,18 @@ public class ChatEventListener {
                                         .replaceAll("\\{bot-name}", this.plugin.getLanguage().getGeneralCategory().getBotName())
                                         .replaceAll("\\{message}", firstMatch.get().getResponses().get(new Random().nextInt(firstMatch.get().getResponses().size())))
                         ));
-                    });
+                    } else {
+                        Sponge.getServer().getOnlinePlayers().forEach(p -> {
+                            p.sendMessage(YanamiBotUtil.toText(
+                                    this.plugin.getLanguage()
+                                            .getGeneralCategory()
+                                            .getMessageBuilder()
+                                            .replaceAll("\\{target}", player.getName())
+                                            .replaceAll("\\{bot-name}", this.plugin.getLanguage().getGeneralCategory().getBotName())
+                                            .replaceAll("\\{message}", firstMatch.get().getResponses().get(new Random().nextInt(firstMatch.get().getResponses().size())))
+                            ));
+                        });
+                    }
                 })
                 .delay(500, TimeUnit.MILLISECONDS)
                 .submit(this.plugin);

@@ -1,7 +1,7 @@
 package dev.rachamon.yanamibot.commands.subcommands;
 
+import dev.rachamon.yanamibot.YanamiBot;
 import dev.rachamon.yanamibot.api.command.*;
-import dev.rachamon.yanamibot.api.exceptions.BotCommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
@@ -20,7 +20,12 @@ public class YanamiBotReloadCommand implements IPlayerCommand, IParameterizedCom
 
     @Nonnull
     @Override
-    public CommandResult execute(@Nonnull Player source, @Nonnull CommandContext args) throws BotCommandException {
+    public CommandResult execute(@Nonnull Player source, @Nonnull CommandContext args) {
+        try {
+            YanamiBot.getInstance().getPluginManager().reload();
+        } catch (Exception e) {
+            return CommandResult.empty();
+        }
         return CommandResult.success();
     }
 }

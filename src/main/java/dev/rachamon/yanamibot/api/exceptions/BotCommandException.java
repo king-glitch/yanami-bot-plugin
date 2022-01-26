@@ -10,7 +10,7 @@ public class BotCommandException extends CommandException {
     private static final YanamiBot plugin = YanamiBot.getInstance();
 
     public BotCommandException(String message) {
-        super(YanamiBotUtil.toText(plugin.getLanguage().getGeneralCategory().getPrefix() + message));
+        super(YanamiBotUtil.toText(plugin.getLanguage().getGeneralCategory().getPrefix() + "&c" + message));
     }
 
 

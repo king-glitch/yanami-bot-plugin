@@ -1,6 +1,7 @@
 package dev.rachamon.yanamibot.api.command;
 
 import dev.rachamon.yanamibot.api.exceptions.BotCommandException;
+import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
@@ -8,6 +9,7 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
 
 import javax.annotation.Nonnull;
+import java.io.IOException;
 
 /**
  * The interface Player command.

@@ -61,7 +61,16 @@ public class YanamiBotFileAbstract<T> {
             configRoot.setValue(TypeToken.of(this.getClazzType()), this.getRoot());
             this.configLoader.save(configRoot);
         } catch (IOException | ObjectMappingException e) {
-//            this.plugin.getLogger().error(e.getMessage());
+            this.plugin.getLogger().error(e.getMessage());
+        }
+    }
+
+    public void save(Class<T> clazz, T root) {
+        try {
+            configRoot.setValue(TypeToken.of(clazz), root);
+            this.configLoader.save(configRoot);
+        } catch (IOException | ObjectMappingException e) {
+            this.plugin.getLogger().error(e.getMessage());
         }
     }
 

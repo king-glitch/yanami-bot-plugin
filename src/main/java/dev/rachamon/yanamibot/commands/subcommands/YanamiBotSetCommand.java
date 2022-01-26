@@ -1,5 +1,6 @@
 package dev.rachamon.yanamibot.commands.subcommands;
 
+
 import dev.rachamon.yanamibot.YanamiBot;
 import dev.rachamon.yanamibot.api.command.*;
 import dev.rachamon.yanamibot.api.exceptions.BotCommandException;
@@ -15,16 +16,16 @@ import org.spongepowered.api.text.Text;
 import javax.annotation.Nonnull;
 import java.util.Optional;
 
-@ICommandAliases({"add"})
-@ICommandPermission("rachamonguilds.command.bot.add")
-@ICommandDescription("add bot events")
-public class YanamiBotAddCommand implements IPlayerCommand, IParameterizedCommand {
+@ICommandAliases({"set"})
+@ICommandPermission("rachamonguilds.command.bot.set")
+@ICommandDescription("set bot permission")
+public class YanamiBotSetCommand implements IPlayerCommand, IParameterizedCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
                 new YanamiBotGetKeysCommandElement(Text.of("key")),
                 new YanamiBotGetTypeCommandElement(Text.of("type")),
-                GenericArguments.remainingJoinedStrings(Text.of("content"))
+                GenericArguments.string(Text.of("permission")),
         };
     }
 
@@ -34,19 +35,21 @@ public class YanamiBotAddCommand implements IPlayerCommand, IParameterizedComman
 
         Optional<String> key = args.getOne("key");
         Optional<String> type = args.getOne("type");
-        Optional<String> content = args.getOne("content");
+        Optional<String> content = args.getOne("permission");
 
         if (!key.isPresent() || !type.isPresent() || !content.isPresent()) return CommandResult.empty();
 
+        try {
+            if (type.get().equalsIgnoreCase("permission")) {
+                if (content.get().equalsIgnoreCase("unset")) {
+                    YanamiBot.getInstance().getBotManager().setChatPermission(key.get(), content.get());
+                } else {
+                    YanamiBot.getInstance().getBotManager().setChatPermission(key.get(), "");
+                }
+            }
+        } catch (Exception ignored) {
 
-        if (type.get().equalsIgnoreCase("command")) {
-            YanamiBot.getInstance().getBotManager().addChatCommand(key.get(), content.get());
-        } else if (type.get().equalsIgnoreCase("response")) {
-            YanamiBot.getInstance().getBotManager().addChatResponse(key.get(), content.get());
-        } else if (type.get().equalsIgnoreCase("regex")) {
-            YanamiBot.getInstance().getBotManager().addChatRegex(key.get(), content.get());
         }
-
 
         return CommandResult.success();
     }

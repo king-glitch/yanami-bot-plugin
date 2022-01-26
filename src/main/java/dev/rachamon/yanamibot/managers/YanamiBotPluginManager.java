@@ -9,7 +9,6 @@ import dev.rachamon.yanamibot.configs.EventsConfig;
 import dev.rachamon.yanamibot.configs.LanguageConfig;
 import dev.rachamon.yanamibot.configs.MainConfig;
 import dev.rachamon.yanamibot.listeners.ChatEventListener;
-import ninja.leaping.configurate.commented.SimpleCommentedConfigurationNode;
 
 import java.util.List;
 
@@ -33,7 +32,32 @@ public class YanamiBotPluginManager {
 
     public void postInitialize() {
         this.plugin.getLogger().debug("Initializing Configs...");
+        this.configureConfigs();
 
+        try {
+            this.plugin.getCommandService().register(new YanamiBotMainCommand(), this.plugin);
+            this.plugin.getLogger().debug("Initialized Commands");
+        } catch (AnnotatedCommandException e) {
+            e.printStackTrace();
+        }
+
+        this.plugin.getGame().getEventManager().registerListeners(plugin, new ChatEventListener());
+
+    }
+
+    public void reload() {
+        this.plugin.getLogger().debug("Reloading Yanami Bot...");
+        this.configureConfigs();
+
+        try {
+            this.plugin.getCommandService().register(new YanamiBotMainCommand(), this.plugin);
+        } catch (Exception ignored) {
+        }
+
+        this.plugin.getLogger().debug("Yanami Bot reloaded");
+    }
+
+    private void configureConfigs() {
         YanamiBotFileAbstract<MainConfig> config = new YanamiBotFileAbstract<>(this.plugin, "main.conf");
         YanamiBotFileAbstract<LanguageConfig> language = new YanamiBotFileAbstract<>(this.plugin, "language.conf");
         YanamiBotFileAbstract<EventsConfig> events = new YanamiBotFileAbstract<>(this.plugin, "events.conf");
@@ -72,18 +96,5 @@ public class YanamiBotPluginManager {
 
             this.plugin.getEventsConfig().getChatResponses().put((String) key, new EventsConfig.ChatResponse(permission, regexes, responses, commands));
         });
-
-        try {
-            this.plugin.getCommandService().register(new YanamiBotMainCommand(), this.plugin);
-            this.plugin.getLogger().debug("Initialized Commands");
-        } catch (AnnotatedCommandException e) {
-            e.printStackTrace();
-        }
-
-        this.plugin.getGame().getEventManager().registerListeners(plugin, new ChatEventListener());
-
-    }
-
-    public void reload() {
     }
 }

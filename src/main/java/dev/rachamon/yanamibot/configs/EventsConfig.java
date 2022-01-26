@@ -35,6 +35,10 @@ public class EventsConfig {
             return permission;
         }
 
+        public void setPermission(String permission) {
+            this.permission = permission;
+        }
+
         public List<String> getResponses() {
             return responses;
         }

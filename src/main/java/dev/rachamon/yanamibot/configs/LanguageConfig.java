@@ -16,7 +16,7 @@ public class LanguageConfig {
     @ConfigSerializable
     public static class LanguageGeneralCategory {
         @Setting(comment = "plugin prefix", value = "prefix")
-        private final String prefix = "[&d&l&oYanami] &f";
+        private final String prefix = "&8[&d&l&oYanami&8] &f";
 
         @Setting(comment = "The bot name", value = "bot-name")
         private final String botName = "&d&l&oYanami";
