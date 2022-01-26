@@ -59,7 +59,7 @@ public class EventsConfig {
 
     private Map<String, ChatResponse> defaultChatResponses() {
         Map<String, ChatResponse> list = new HashMap<>();
-        list.put("hello", new ChatResponse("", Arrays.asList("(hello|hi)", "fuck"), Arrays.asList("Hello World", "Hi!"), new ArrayList<>()));
+        list.put("hello", new ChatResponse("", Arrays.asList("(hello|hi)", "how are you"), Arrays.asList("Hello World", "Hi!"), new ArrayList<>()));
         return list;
     }
 

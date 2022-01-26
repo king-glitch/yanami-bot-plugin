@@ -5,6 +5,7 @@ import dev.rachamon.yanamibot.api.command.*;
 import dev.rachamon.yanamibot.api.exceptions.BotCommandException;
 import dev.rachamon.yanamibot.commands.elements.YanamiBotGetKeysCommandElement;
 import dev.rachamon.yanamibot.commands.elements.YanamiBotGetTypeCommandElement;
+import dev.rachamon.yanamibot.utils.YanamiBotUtil;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
@@ -21,11 +22,7 @@ import java.util.Optional;
 public class YanamiBotAddCommand implements IPlayerCommand, IParameterizedCommand {
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                new YanamiBotGetKeysCommandElement(Text.of("key")),
-                new YanamiBotGetTypeCommandElement(Text.of("type")),
-                GenericArguments.remainingJoinedStrings(Text.of("content"))
-        };
+        return new CommandElement[]{new YanamiBotGetKeysCommandElement(Text.of("key")), new YanamiBotGetTypeCommandElement(Text.of("type")), GenericArguments.remainingJoinedStrings(Text.of("content"))};
     }
 
     @Nonnull
@@ -47,6 +44,7 @@ public class YanamiBotAddCommand implements IPlayerCommand, IParameterizedComman
             YanamiBot.getInstance().getBotManager().addChatRegex(key.get(), content.get());
         }
 
+        source.sendMessage(YanamiBotUtil.toText(YanamiBot.getInstance().getLanguage().getCommandCategory().getCommandAddSuccessfully()));
 
         return CommandResult.success();
     }

@@ -1,7 +1,10 @@
 package dev.rachamon.yanamibot.listeners;
 
 import dev.rachamon.yanamibot.YanamiBot;
+import dev.rachamon.yanamibot.api.utils.ChatQuestion;
+import dev.rachamon.yanamibot.api.utils.ChatQuestionAnswer;
 import dev.rachamon.yanamibot.configs.EventsConfig;
+import dev.rachamon.yanamibot.configs.LanguageConfig;
 import dev.rachamon.yanamibot.utils.YanamiBotUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
@@ -24,16 +27,33 @@ public class ChatEventListener {
 
         if (!firstMatch.isPresent()) return;
 
-        boolean hasPermission = player.hasPermission(firstMatch.get().getPermission());
+        boolean hasPermission = firstMatch.get().getPermission().isEmpty() || player.hasPermission(firstMatch.get().getPermission());
 
         if (!hasPermission) return;
 
         Sponge.getScheduler().createTaskBuilder()
                 .execute(() -> {
                     if (firstMatch.get().getCommands().size() > 0) {
-                        firstMatch.get().getCommands().forEach(command -> {
-                            this.plugin.getGame().getCommandManager().process(Sponge.getServer().getConsole(), command);
-                        });
+
+                        LanguageConfig language = plugin.getLanguage();
+                        ChatQuestion question = ChatQuestion.of(YanamiBotUtil.toText(this.plugin.getLanguage()
+                                        .getGeneralCategory()
+                                        .getMessageBuilderRaw()
+                                        .replaceAll("\\{target}", player.getName())
+                                        .replaceAll("\\{bot-name}", this.plugin.getLanguage().getGeneralCategory().getBotName())
+                                        .replaceAll("\\{message}", language.getGeneralCategory().getRunCommandsQuestion())))
+                                .addAnswer(ChatQuestionAnswer.of(YanamiBotUtil.toText(language.getGeneralCategory().getClickAcceptButton()), target -> {
+                                    firstMatch.get().getCommands().forEach(command -> {
+                                        this.plugin.getGame().getCommandManager().process(Sponge.getServer().getConsole(), command.replaceAll("\\{player}", player.getName()));
+                                    });
+                                })).build();
+
+                        question.setAlreadyResponse(YanamiBotUtil.toText(language.getQuestionCategory().getAlreadyResponded()));
+                        question.setClickToAnswer(YanamiBotUtil.toText(language.getQuestionCategory().getClickToAnswer()));
+                        question.setClickToView(YanamiBotUtil.toText(language.getQuestionCategory().getClickToView()));
+                        question.setMustBePlayer(YanamiBotUtil.toText(language.getQuestionCategory().getMustBePlayer()));
+
+
 
                         player.sendMessage(YanamiBotUtil.toText(
                                 this.plugin.getLanguage()
@@ -43,6 +63,8 @@ public class ChatEventListener {
                                         .replaceAll("\\{bot-name}", this.plugin.getLanguage().getGeneralCategory().getBotName())
                                         .replaceAll("\\{message}", firstMatch.get().getResponses().get(new Random().nextInt(firstMatch.get().getResponses().size())))
                         ));
+                        question.pollChat(player);
+
                     } else {
                         Sponge.getServer().getOnlinePlayers().forEach(p -> {
                             p.sendMessage(YanamiBotUtil.toText(

@@ -31,6 +31,7 @@ public class YanamiBotInfoCommand implements IPlayerCommand, IParameterizedComma
         Optional<String> key = args.getOne("key");
         if (!key.isPresent()) return CommandResult.empty();
         YanamiBot.getInstance().getBotManager().printChatResponse(source, key.get());
+
         return CommandResult.success();
     }
 }
