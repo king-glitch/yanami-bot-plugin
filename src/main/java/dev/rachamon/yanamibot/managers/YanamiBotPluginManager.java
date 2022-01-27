@@ -91,8 +91,6 @@ public class YanamiBotPluginManager {
                         .build()
         );
 
-        this.plugin.getLogger().info(this.plugin.getLanguage().getGeneralCategory().getBotName() + " " + this.plugin.getLanguageManager().getConfigRoot().getNode("general").getNode("bot-name").getValue());
-
         this.plugin.getEventsManager().getConfigRoot().getNode("chat-responses").getChildrenMap().forEach((key, value) -> {
             String permission = (String) value.getNode("permission").getValue();
             List<String> regexes = (List<String>) value.getNode("regexes").getValue();
