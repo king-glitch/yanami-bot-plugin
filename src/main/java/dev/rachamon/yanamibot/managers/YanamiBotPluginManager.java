@@ -62,7 +62,12 @@ public class YanamiBotPluginManager {
         YanamiBotFileAbstract<LanguageConfig> language = new YanamiBotFileAbstract<>(this.plugin, "language.conf");
         YanamiBotFileAbstract<EventsConfig> events = new YanamiBotFileAbstract<>(this.plugin, "events.conf");
 
-        this.plugin.setConfig(
+        this.plugin.setEventsManager(events);
+        this.plugin.setConfigManager(config);
+        this.plugin.setLanguageManager(language);
+
+
+        this.plugin.setMainConfig(
                 config
                         .setHeader("Main Config")
                         .setClazz(new MainConfig())
@@ -70,7 +75,7 @@ public class YanamiBotPluginManager {
                         .build()
         );
 
-        this.plugin.setLanguage(
+        this.plugin.setLanguageConfig(
                 language
                         .setHeader("Language Config")
                         .setClazz(new LanguageConfig())
@@ -78,7 +83,6 @@ public class YanamiBotPluginManager {
                         .build()
         );
 
-        this.plugin.setEventsManager(events);
         this.plugin.setEventsConfig(
                 events
                         .setHeader("Bot Response Events Config")
@@ -87,8 +91,9 @@ public class YanamiBotPluginManager {
                         .build()
         );
 
+        this.plugin.getLogger().info(this.plugin.getLanguage().getGeneralCategory().getBotName() + " " + this.plugin.getLanguageManager().getConfigRoot().getNode("general").getNode("bot-name").getValue());
+
         this.plugin.getEventsManager().getConfigRoot().getNode("chat-responses").getChildrenMap().forEach((key, value) -> {
-            this.plugin.getLogger().debug((String) key);
             String permission = (String) value.getNode("permission").getValue();
             List<String> regexes = (List<String>) value.getNode("regexes").getValue();
             List<String> responses = (List<String>) value.getNode("responses").getValue();

@@ -43,7 +43,7 @@ public class YanamiBotFileAbstract<T> {
             }
 
             configLoader = HoconConfigurationLoader.builder().setFile(mainConfig).build();
-            configRoot = configLoader.load(ConfigurationOptions.defaults().setHeader(this.header));
+            configRoot = configLoader.load(ConfigurationOptions.defaults().withObjectMapperFactory(this.plugin.getFactory()).withShouldCopyDefaults(true).setHeader(this.header));
             root = configRoot.getValue(TypeToken.of(this.getClazzType()), this.getClazz());
 
             this.save();

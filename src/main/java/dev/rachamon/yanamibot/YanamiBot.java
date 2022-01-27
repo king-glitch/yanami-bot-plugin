@@ -5,10 +5,13 @@ import com.google.inject.Injector;
 import dev.rachamon.yanamibot.api.abstracts.YanamiBotFileAbstract;
 import dev.rachamon.yanamibot.api.services.YanamiBotCommandService;
 import dev.rachamon.yanamibot.api.services.YanamiBotService;
-import dev.rachamon.yanamibot.configs.*;
+import dev.rachamon.yanamibot.configs.EventsConfig;
+import dev.rachamon.yanamibot.configs.LanguageConfig;
+import dev.rachamon.yanamibot.configs.MainConfig;
 import dev.rachamon.yanamibot.managers.BotManager;
 import dev.rachamon.yanamibot.managers.YanamiBotPluginManager;
 import dev.rachamon.yanamibot.utils.LoggerUtil;
+import ninja.leaping.configurate.objectmapping.GuiceObjectMapperFactory;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.config.ConfigDir;
@@ -30,11 +33,14 @@ public class YanamiBot {
     private static boolean isInitialized = false;
 
     private Components components;
-    private MainConfig config;
-    private LanguageConfig language;
+    private YanamiBotFileAbstract<MainConfig> config;
+    private YanamiBotFileAbstract<LanguageConfig> language;
     private YanamiBotFileAbstract<EventsConfig> events;
     private LoggerUtil logger;
     private YanamiBotPluginManager yanamiBotPluginManager;
+
+    @Inject
+    public GuiceObjectMapperFactory factory;
 
     @Inject
     Injector spongeInjector;
@@ -134,23 +140,19 @@ public class YanamiBot {
         return this.components.botManager;
     }
 
-    public YanamiBotService getBotService() {
-        return this.components.botService;
-    }
-
     public MainConfig getConfig() {
-        return config;
+        return config.getRoot();
     }
 
-    public void setConfig(MainConfig config) {
+    public void setConfigManager(YanamiBotFileAbstract<MainConfig> config) {
         this.config = config;
     }
 
     public LanguageConfig getLanguage() {
-        return language;
+        return language.getRoot();
     }
 
-    public void setLanguage(LanguageConfig language) {
+    public void setLanguageManager(YanamiBotFileAbstract<LanguageConfig> language) {
         this.language = language;
     }
 
@@ -171,8 +173,24 @@ public class YanamiBot {
         this.events.setClazz(events);
     }
 
+    public void setMainConfig(MainConfig config) {
+        this.config.setClazz(config);
+    }
+
+    public void setLanguageConfig(LanguageConfig languageConfig) {
+        this.language.setClazz(languageConfig);
+    }
+
     public YanamiBotFileAbstract<EventsConfig> getEventsManager() {
         return events;
+    }
+
+    public YanamiBotFileAbstract<MainConfig> getConfigManager() {
+        return config;
+    }
+
+    public YanamiBotFileAbstract<LanguageConfig> getLanguageManager() {
+        return language;
     }
 
     public void setEventsManager(YanamiBotFileAbstract<EventsConfig> events) {
@@ -185,6 +203,10 @@ public class YanamiBot {
 
     public YanamiBotCommandService getCommandService() {
         return YanamiBotCommandService.getInstance();
+    }
+
+    public GuiceObjectMapperFactory getFactory() {
+        return factory;
     }
 
     public static class Components {

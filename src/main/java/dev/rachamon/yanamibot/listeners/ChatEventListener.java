@@ -33,11 +33,21 @@ public class ChatEventListener {
 
         Sponge.getScheduler().createTaskBuilder()
                 .execute(() -> {
+                    LanguageConfig language = plugin.getLanguage();
+
+                    Sponge.getServer().getOnlinePlayers().forEach(p -> {
+                        p.sendMessage(YanamiBotUtil.toText(
+                                language.getGeneralCategory()
+                                        .getMessageBuilder()
+                                        .replaceAll("\\{target}", player.getName())
+                                        .replaceAll("\\{bot-name}", language.getGeneralCategory().getBotName())
+                                        .replaceAll("\\{message}", firstMatch.get().getResponses().get(new Random().nextInt(firstMatch.get().getResponses().size())))
+                        ));
+                    });
+
                     if (firstMatch.get().getCommands().size() > 0) {
 
-                        LanguageConfig language = plugin.getLanguage();
-                        ChatQuestion question = ChatQuestion.of(YanamiBotUtil.toText(this.plugin.getLanguage()
-                                        .getGeneralCategory()
+                        ChatQuestion question = ChatQuestion.of(YanamiBotUtil.toText(language.getGeneralCategory()
                                         .getMessageBuilderRaw()
                                         .replaceAll("\\{target}", player.getName())
                                         .replaceAll("\\{bot-name}", this.plugin.getLanguage().getGeneralCategory().getBotName())
@@ -52,31 +62,9 @@ public class ChatEventListener {
                         question.setClickToAnswer(YanamiBotUtil.toText(language.getQuestionCategory().getClickToAnswer()));
                         question.setClickToView(YanamiBotUtil.toText(language.getQuestionCategory().getClickToView()));
                         question.setMustBePlayer(YanamiBotUtil.toText(language.getQuestionCategory().getMustBePlayer()));
-
-
-
-                        player.sendMessage(YanamiBotUtil.toText(
-                                this.plugin.getLanguage()
-                                        .getGeneralCategory()
-                                        .getMessageBuilder()
-                                        .replaceAll("\\{target}", player.getName())
-                                        .replaceAll("\\{bot-name}", this.plugin.getLanguage().getGeneralCategory().getBotName())
-                                        .replaceAll("\\{message}", firstMatch.get().getResponses().get(new Random().nextInt(firstMatch.get().getResponses().size())))
-                        ));
                         question.pollChat(player);
-
-                    } else {
-                        Sponge.getServer().getOnlinePlayers().forEach(p -> {
-                            p.sendMessage(YanamiBotUtil.toText(
-                                    this.plugin.getLanguage()
-                                            .getGeneralCategory()
-                                            .getMessageBuilder()
-                                            .replaceAll("\\{target}", player.getName())
-                                            .replaceAll("\\{bot-name}", this.plugin.getLanguage().getGeneralCategory().getBotName())
-                                            .replaceAll("\\{message}", firstMatch.get().getResponses().get(new Random().nextInt(firstMatch.get().getResponses().size())))
-                            ));
-                        });
                     }
+
                 })
                 .delay(500, TimeUnit.MILLISECONDS)
                 .submit(this.plugin);

@@ -80,10 +80,11 @@ public class LoggerUtil {
      * @param message the message
      */
     public void debug(String message) {
-        if (plugin == null) return;
-        if (plugin.getConfig() == null) return;
 //        if (!plugin.getConfig().getRoot().getGeneralCategorySetting().isDebug()) return;
-        console.sendMessage(YanamiBotUtil.toText("&8[&4&lYanamiBot&8] [&dDEBUG&8]&7: &a" + message));
+        try {
+            console.sendMessage(YanamiBotUtil.toText("&8[&4&lYanamiBot&8] [&dDEBUG&8]&7: &a" + message));
+        } catch (Exception ignored) {
+        }
 
     }
 }

@@ -8,7 +8,7 @@ import java.util.*;
 @ConfigSerializable
 public class EventsConfig {
     @Setting(value = "chat-responses", comment = "Chat Responses")
-    private final Map<String, ChatResponse> chatResponses = defaultChatResponses();
+    protected Map<String, ChatResponse> chatResponses = defaultChatResponses();
 
     @ConfigSerializable
     public static class ChatResponse {

@@ -6,14 +6,17 @@ import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 @ConfigSerializable
 public class LanguageConfig {
 
+    public LanguageConfig() {
+    }
+
     @Setting(value = "general", comment = "General Settings")
-    private final LanguageGeneralCategory generalCategory = new LanguageGeneralCategory();
+    protected LanguageGeneralCategory generalCategory = new LanguageGeneralCategory();
 
     @Setting(value = "commands", comment = "General Settings")
-    private final LanguageCommandCategory commandCategory = new LanguageCommandCategory();
+    protected LanguageCommandCategory commandCategory = new LanguageCommandCategory();
 
     @Setting(value = "question", comment = "General Settings")
-    private final QuestionCategory questionCategory = new QuestionCategory();
+    protected QuestionCategory questionCategory = new QuestionCategory();
 
     public LanguageGeneralCategory getGeneralCategory() {
         return generalCategory;
@@ -30,30 +33,30 @@ public class LanguageConfig {
     @ConfigSerializable
     public static class LanguageGeneralCategory {
         @Setting(comment = "plugin prefix", value = "prefix")
-        private final String prefix = "&8[&d&l&oYanami&8] &f";
+        protected String prefix = "&8[&d&l&oYanami&8] &f";
 
         @Setting(comment = "The bot name", value = "bot-name")
-        private final String botName = "&d&l&oYanami";
+        protected String botName = "&d&l&oYanami";
 
         @Setting(comment = "click button label", value = "click-accept-button")
-        private final String clickAcceptButton = "&a&lAccept&r";
+        protected String clickAcceptButton = "&a&lAccept&r";
 
         @Setting(comment = "run commands question", value = "run-commands-question")
-        private final String runCommandsQuestion = "Would you like me to run you helper commands?&r";
+        protected String runCommandsQuestion = "Would you like me to run you helper commands?&r";
 
         @Setting(comment = "message builder\n" +
                 "variables : \n" +
                 " - {bot-name} : the bot name\n" +
                 " - {message} : bot response message\n" +
                 " - {target} : target to response to", value = "message-builder")
-        private final String messageBuilder = "&8[&4&lBOT&8] &8[{bot-name}&8] &a&l@{target}&f, &f{message}";
+        protected String messageBuilder = "&8[&4&lBOT&8] &8[{bot-name}&8] &a&l@{target}&f, &f{message}";
 
         @Setting(comment = "message raw builder\n" +
                 "variables : \n" +
                 " - {bot-name} : the bot name\n" +
                 " - {message} : bot response message\n" +
                 " - {target} : target to response to", value = "message-builder-raw")
-        private final String messageBuilderRaw = "&8[&4&lBOT&8] &8[{bot-name}&8] &f{message}";
+        protected String messageBuilderRaw = "&8[&4&lBOT&8] &8[{bot-name}&8] &f{message}";
 
         public String getBotName() {
             return botName;
@@ -83,17 +86,17 @@ public class LanguageConfig {
     @ConfigSerializable
     public static class LanguageCommandCategory {
         @Setting(value = "command-add-successfully")
-        private final String commandAddSuccessfully = "&fSuccessfully Added";
+        protected String commandAddSuccessfully = "&fSuccessfully Added";
         @Setting(value = "command-remove-successfully")
-        private final String commandRemoveSuccessfully = "&fSuccessfully Removed";
+        protected String commandRemoveSuccessfully = "&fSuccessfully Removed";
         @Setting(value = "command-delete-successfully")
-        private final String commandDeleteSuccessfully = "&fSuccessfully Deleted";
+        protected String commandDeleteSuccessfully = "&fSuccessfully Deleted";
         @Setting(value = "command-create-successfully")
-        private final String commandCreateSuccessfully = "&fSuccessfully Created";
+        protected String commandCreateSuccessfully = "&fSuccessfully Created";
         @Setting(value = "command-reload-successfully")
-        private final String commandReloadSuccessfully = "&fSuccessfully Reload";
+        protected String commandReloadSuccessfully = "&fSuccessfully Reload";
         @Setting(value = "command-set-successfully")
-        private final String commandSetSuccessfully = "&fSuccessfully Set";
+        protected String commandSetSuccessfully = "&fSuccessfully Set";
 
         public String getCommandSetSuccessfully() {
             return commandSetSuccessfully;
@@ -123,22 +126,22 @@ public class LanguageConfig {
     @ConfigSerializable
     public static class QuestionCategory {
         @Setting(comment = "question click to view.", value = "click-to-view")
-        private final String clickToView = "&aClick to View";
+        protected String clickToView = "&aClick to View";
 
         @Setting(comment = "question click to answer.", value = "click-to-answer")
-        private final String clickToAnswer = "&aClick to Answer";
+        protected String clickToAnswer = "&aClick to Answer";
 
         @Setting(comment = "question click to view.", value = "must-be-player")
-        private final String mustBePlayer = "&cYou must be player to answer this question";
+        protected String mustBePlayer = "&cYou must be player to answer this question";
 
         @Setting(comment = "question click to view.", value = "already-responded")
-        private final String alreadyResponded = "&cYou have already responded to that question!";
+        protected String alreadyResponded = "&cYou have already responded to that question!";
 
         @Setting(comment = "accept button", value = "accept-button")
-        private final String acceptButton = "&aAccept";
+        protected String acceptButton = "&aAccept";
 
         @Setting(comment = "declined button", value = "declined-button")
-        private final String declinedButton = "&cDeclined";
+        protected String declinedButton = "&cDeclined";
 
         /**
          * Gets already responded.

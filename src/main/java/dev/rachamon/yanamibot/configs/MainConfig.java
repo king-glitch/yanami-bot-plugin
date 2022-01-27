@@ -16,7 +16,7 @@ public class MainConfig {
     @ConfigSerializable
     public static class GeneralCategorySetting {
         @Setting(comment = "is logging", value = "is-debug")
-        private final boolean isDebug = true;
+        protected boolean isDebug = true;
 
         public boolean isDebug() {
             return isDebug;
