@@ -9,21 +9,29 @@ import dev.rachamon.yanamibot.utils.YanamiBotUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.filter.cause.Root;
 import org.spongepowered.api.event.message.MessageChannelEvent;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class ChatEventListener {
 
     private final YanamiBot plugin = YanamiBot.getInstance();
 
-    @Listener
+    @Listener(order = Order.LATE)
     public void onChat(MessageChannelEvent.Chat event, @Root Player player) {
+
+        if (event.isMessageCancelled()) return;
+
+        if (event.getRawMessage().toPlain().charAt(0) == '/') return;
         List<EventsConfig.ChatResponse> responses = new ArrayList<>(this.plugin.getEventsConfig().getChatResponses().values());
 
-        Optional<EventsConfig.ChatResponse> firstMatch = responses.stream().filter(m -> m.getRegexes().stream().anyMatch(a -> event.getRawMessage().toPlain().matches(a))).findFirst();
+        Optional<EventsConfig.ChatResponse> firstMatch = responses.stream().filter(m -> m.getRegexes().stream().anyMatch(a -> event.getRawMessage().toPlain().toLowerCase().matches(a))).findFirst();
 
         if (!firstMatch.isPresent()) return;
 
