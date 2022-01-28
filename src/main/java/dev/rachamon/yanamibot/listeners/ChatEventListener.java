@@ -23,10 +23,12 @@ public class ChatEventListener {
 
     private final YanamiBot plugin = YanamiBot.getInstance();
 
-    @Listener(order = Order.LATE)
+    @Listener()
     public void onChat(MessageChannelEvent.Chat event, @Root Player player) {
 
+        YanamiBot.getInstance().getLogger().debug("message cancelled : " + event.isMessageCancelled());
         if (event.isMessageCancelled()) return;
+        YanamiBot.getInstance().getLogger().debug("raw message : " + event.getRawMessage().toPlain());
 
         if (event.getRawMessage().toPlain().charAt(0) == '/') return;
         List<EventsConfig.ChatResponse> responses = new ArrayList<>(this.plugin.getEventsConfig().getChatResponses().values());
