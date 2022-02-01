@@ -34,10 +34,10 @@ public class ChatEventListener {
         try {
 
             YanamiBot.getInstance().getLogger().debug("original message : " + event.getOriginalMessage().toPlain());
-            YanamiBot.getInstance().getLogger().debug("match : " + event.getOriginalMessage().toPlain().matches("<\\[[A-Z]] ([A-Z])\\w+>.*"));
+            YanamiBot.getInstance().getLogger().debug("match : " + event.getOriginalMessage().toPlain().matches("<\\[[A-Z]] ([a-zA-Z0-9])\\w+>.*"));
             YanamiBot.getInstance().getLogger().debug("raw message : " + event.getRawMessage().toPlain());
 
-            if (event.isMessageCancelled() || !event.getOriginalMessage().toPlain().matches("<\\[[A-Z]] ([A-Z])\\w+>.*"))
+            if (event.isMessageCancelled() || !event.getOriginalMessage().toPlain().matches("<\\[[A-Z]] ([a-zA-Z0-9])\\w+>.*"))
                 return;
             List<EventsConfig.ChatResponse> responses = new ArrayList<>(this.plugin.getEventsConfig().getChatResponses().values());
 
