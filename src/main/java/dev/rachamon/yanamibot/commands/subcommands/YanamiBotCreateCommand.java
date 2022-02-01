@@ -15,6 +15,9 @@ import org.spongepowered.api.text.Text;
 import javax.annotation.Nonnull;
 import java.util.Optional;
 
+/**
+ * The type Yanami bot create command.
+ */
 @ICommandAliases({"create"})
 @ICommandPermission("rachamonguilds.command.bot.create")
 @ICommandDescription("create bot events")

@@ -17,6 +17,9 @@ import org.spongepowered.api.text.Text;
 import javax.annotation.Nonnull;
 import java.util.Optional;
 
+/**
+ * The type Yanami bot set command.
+ */
 @ICommandAliases({"set"})
 @ICommandPermission("rachamonguilds.command.bot.set")
 @ICommandDescription("set bot permission")

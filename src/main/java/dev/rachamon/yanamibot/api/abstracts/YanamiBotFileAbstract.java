@@ -13,6 +13,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 
+/**
+ * The type Yanami bot file abstract.
+ *
+ * @param <T> the type parameter
+ */
 public class YanamiBotFileAbstract<T> {
     private final YanamiBot plugin;
 
@@ -26,6 +31,12 @@ public class YanamiBotFileAbstract<T> {
     private final String name;
     private String header;
 
+    /**
+     * Instantiates a new Yanami bot file abstract.
+     *
+     * @param plugin   the plugin
+     * @param fileName the file name
+     */
     public YanamiBotFileAbstract(YanamiBot plugin, String fileName) {
         this.plugin = plugin;
         this.name = fileName;
@@ -33,6 +44,11 @@ public class YanamiBotFileAbstract<T> {
 
     }
 
+    /**
+     * Build t.
+     *
+     * @return the t
+     */
     public T build() {
         try {
             Files.createDirectories(plugin.getDirectory().toFile().toPath());
@@ -56,6 +72,12 @@ public class YanamiBotFileAbstract<T> {
         return clazz;
     }
 
+    /**
+     * Save.
+     *
+     * @throws ObjectMappingException the object mapping exception
+     * @throws IOException            the io exception
+     */
     public void save() throws ObjectMappingException, IOException {
         try {
             configRoot.setValue(TypeToken.of(this.getClazzType()), this.getRoot());
@@ -65,6 +87,12 @@ public class YanamiBotFileAbstract<T> {
         }
     }
 
+    /**
+     * Save.
+     *
+     * @param clazz the clazz
+     * @param root  the root
+     */
     public void save(Class<T> clazz, T root) {
         try {
             configRoot.setValue(TypeToken.of(clazz), root);
@@ -74,41 +102,89 @@ public class YanamiBotFileAbstract<T> {
         }
     }
 
+    /**
+     * Gets root.
+     *
+     * @return the root
+     */
     public T getRoot() {
         return this.root;
     }
 
+    /**
+     * Gets config root.
+     *
+     * @return the config root
+     */
     public CommentedConfigurationNode getConfigRoot() {
         return configRoot;
     }
 
+    /**
+     * Gets config loader.
+     *
+     * @return the config loader
+     */
     public ConfigurationLoader<CommentedConfigurationNode> getConfigLoader() {
         return configLoader;
     }
 
+    /**
+     * Gets clazz type.
+     *
+     * @return the clazz type
+     */
     public Class<T> getClazzType() {
         return clazzType;
     }
 
+    /**
+     * Gets clazz.
+     *
+     * @return the clazz
+     */
     public T getClazz() {
         return clazz;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets clazz type.
+     *
+     * @param clazzType the clazz type
+     * @return the clazz type
+     */
     public YanamiBotFileAbstract<T> setClazzType(Class<T> clazzType) {
         this.clazzType = clazzType;
         return this;
     }
 
+    /**
+     * Sets clazz.
+     *
+     * @param clazz the clazz
+     * @return the clazz
+     */
     public YanamiBotFileAbstract<T> setClazz(T clazz) {
         this.clazz = clazz;
         return this;
     }
 
 
+    /**
+     * Sets header.
+     *
+     * @param header the header
+     * @return the header
+     */
     public YanamiBotFileAbstract<T> setHeader(String header) {
         this.header = header;
         return this;

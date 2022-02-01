@@ -13,7 +13,7 @@ import java.util.*;
 /**
  * A utility for polling players with arbitrary questions, and offering an arbitrary amount of answers with various
  * actions attached.<br> The questions may be sent to the player either in the form of a chat message ( {@link
- * #pollChat(Player)} ), a book view ( {@link #pollBook(Player)} ), or a combination of the two in the form of a
+ * #pollChat(Player)}* ), a book view ( {@link #pollBook(Player)} ), or a combination of the two in the form of a
  * chat-based view button ( {@link #pollViewButton(Player, Text)}* ).
  */
 public final class ChatQuestion {

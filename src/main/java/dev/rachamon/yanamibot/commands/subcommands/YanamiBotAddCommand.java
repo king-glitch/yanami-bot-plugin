@@ -16,6 +16,9 @@ import org.spongepowered.api.text.Text;
 import javax.annotation.Nonnull;
 import java.util.Optional;
 
+/**
+ * The type Yanami bot add command.
+ */
 @ICommandAliases({"add"})
 @ICommandPermission("rachamonguilds.command.bot.add")
 @ICommandDescription("add bot events")

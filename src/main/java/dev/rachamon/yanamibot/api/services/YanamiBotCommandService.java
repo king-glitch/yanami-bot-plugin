@@ -19,6 +19,9 @@ import java.util.stream.Collectors;
 
 import static org.spongepowered.api.text.format.TextColors.*;
 
+/**
+ * The type Yanami bot command service.
+ */
 public class YanamiBotCommandService {
     private static final YanamiBotCommandService instance = new YanamiBotCommandService();
 

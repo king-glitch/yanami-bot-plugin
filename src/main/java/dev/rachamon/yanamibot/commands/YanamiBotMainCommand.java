@@ -8,6 +8,9 @@ import org.spongepowered.api.entity.living.player.Player;
 
 import javax.annotation.Nonnull;
 
+/**
+ * The type Yanami bot main command.
+ */
 @ICommandChildren({
         YanamiBotAddCommand.class,
         YanamiBotReloadCommand.class,

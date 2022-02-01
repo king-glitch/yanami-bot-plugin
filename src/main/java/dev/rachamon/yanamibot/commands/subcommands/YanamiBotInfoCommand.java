@@ -14,6 +14,9 @@ import org.spongepowered.api.text.Text;
 import javax.annotation.Nonnull;
 import java.util.Optional;
 
+/**
+ * The type Yanami bot info command.
+ */
 @ICommandAliases({"info"})
 @ICommandPermission("rachamonguilds.command.bot.info")
 @ICommandDescription("key info")

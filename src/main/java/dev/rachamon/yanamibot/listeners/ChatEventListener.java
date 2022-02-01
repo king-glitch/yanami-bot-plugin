@@ -15,14 +15,27 @@ import org.spongepowered.api.event.message.MessageChannelEvent;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * The type Chat event listener.
+ */
 public class ChatEventListener {
 
     private final YanamiBot plugin = YanamiBot.getInstance();
 
+    /**
+     * On chat.
+     *
+     * @param event  the event
+     * @param player the player
+     */
     @Listener
     public void onChat(MessageChannelEvent.Chat event, @Root Player player) {
 
         try {
+
+            YanamiBot.getInstance().getLogger().debug("original message : " + event.getOriginalMessage().toPlain());
+            YanamiBot.getInstance().getLogger().debug("match : " + event.getOriginalMessage().toPlain().matches("<\\[[A-Z]] ([A-Z])\\w+>.*"));
+            YanamiBot.getInstance().getLogger().debug("raw message : " + event.getRawMessage().toPlain());
 
             if (event.isMessageCancelled() || !event.getOriginalMessage().toPlain().matches("<\\[[A-Z]] ([A-Z])\\w+>.*"))
                 return;

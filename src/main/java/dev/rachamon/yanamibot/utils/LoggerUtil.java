@@ -6,6 +6,9 @@ import org.spongepowered.api.command.source.ConsoleSource;
 
 import java.util.Arrays;
 
+/**
+ * The type Logger util.
+ */
 public class LoggerUtil {
     private final ConsoleSource console;
     private final YanamiBot plugin = YanamiBot.getInstance();

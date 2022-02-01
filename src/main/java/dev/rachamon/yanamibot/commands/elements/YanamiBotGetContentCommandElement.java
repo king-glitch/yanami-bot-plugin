@@ -12,7 +12,15 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Yanami bot get content command element.
+ */
 public class YanamiBotGetContentCommandElement extends CommandElement {
+    /**
+     * Instantiates a new Yanami bot get content command element.
+     *
+     * @param key the key
+     */
     public YanamiBotGetContentCommandElement(@Nullable Text key) {
         super(key);
     }

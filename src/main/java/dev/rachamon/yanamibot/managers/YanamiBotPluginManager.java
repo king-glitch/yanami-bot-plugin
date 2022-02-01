@@ -12,10 +12,16 @@ import dev.rachamon.yanamibot.listeners.ChatEventListener;
 
 import java.util.List;
 
+/**
+ * The type Yanami bot plugin manager.
+ */
 public class YanamiBotPluginManager {
     private final YanamiBot plugin = YanamiBot.getInstance();
 
 
+    /**
+     * Initialize.
+     */
     public void initialize() {
         this.plugin.setComponents(new YanamiBot.Components());
         this.plugin.setBotInjector(this.plugin.getSpongeInjector().createChildInjector(new YanamiBotModule()));
@@ -23,13 +29,22 @@ public class YanamiBotPluginManager {
         this.plugin.setIsInitialized(true);
     }
 
+    /**
+     * Pre initialize.
+     */
     public void preInitialize() {
     }
 
+    /**
+     * Start.
+     */
     public void start() {
         this.plugin.getLogger().debug("Initializing events...");
     }
 
+    /**
+     * Post initialize.
+     */
     public void postInitialize() {
         this.plugin.getLogger().debug("Initializing Configs...");
         this.configureConfigs();
@@ -45,6 +60,9 @@ public class YanamiBotPluginManager {
 
     }
 
+    /**
+     * Reload.
+     */
     public void reload() {
         this.plugin.getLogger().debug("Reloading Yanami Bot...");
         this.configureConfigs();

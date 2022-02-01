@@ -16,6 +16,9 @@ import org.spongepowered.api.text.Text;
 import javax.annotation.Nonnull;
 import java.util.Optional;
 
+/**
+ * The type Yanami bot remove command.
+ */
 @ICommandAliases({"remove"})
 @ICommandPermission("rachamonguilds.command.bot.remove")
 @ICommandDescription("remove bot events")
