@@ -11,9 +11,15 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.filter.cause.Root;
 import org.spongepowered.api.event.message.MessageChannelEvent;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.action.TextActions;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+
+import org.spongepowered.api.text.Text.Builder;
 
 /**
  * The type Chat event listener.
@@ -34,10 +40,10 @@ public class ChatEventListener {
         try {
 
             YanamiBot.getInstance().getLogger().debug("original message : " + event.getOriginalMessage().toPlain());
-            YanamiBot.getInstance().getLogger().debug("match : " + event.getOriginalMessage().toPlain().matches("<\\[[A-Z]] ([a-zA-Z0-9])\\w+>.*"));
+            YanamiBot.getInstance().getLogger().debug("match : " + event.getOriginalMessage().toPlain().matches("<(\\[[A-Z]] )?([a-zA-Z0-9])\\w+>.*"));
             YanamiBot.getInstance().getLogger().debug("raw message : " + event.getRawMessage().toPlain());
 
-            if (event.isMessageCancelled() || !event.getOriginalMessage().toPlain().matches("<\\[[A-Z]] ([a-zA-Z0-9])\\w+>.*"))
+            if (event.isMessageCancelled() || !event.getOriginalMessage().toPlain().matches("<(\\[[A-Z]] )?([a-zA-Z0-9])\\w+>.*"))
                 return;
             List<EventsConfig.ChatResponse> responses = new ArrayList<>(this.plugin.getEventsConfig().getChatResponses().values());
 
@@ -46,21 +52,45 @@ public class ChatEventListener {
             if (!firstMatch.isPresent()) return;
 
             boolean hasPermission = firstMatch.get().getPermission().isEmpty() || player.hasPermission(firstMatch.get().getPermission());
+            YanamiBot.getInstance().getLogger().debug("has permission : " + hasPermission);
 
             if (!hasPermission) return;
 
             Sponge.getScheduler().createTaskBuilder()
                     .execute(() -> {
+
                         LanguageConfig language = plugin.getLanguage();
+                        String message = firstMatch.get().getResponses().get(
+                                new Random().nextInt(firstMatch.get().getResponses().size())
+                        );
+
+                        Builder formatter = Text.builder();
+
+                        YanamiBotUtil.toText(language.getGeneralCategory()
+                                .getMessageBuilder()
+                                .replaceAll("\\{target}", player.getName())
+                                .replaceAll("\\{bot-name}", language.getGeneralCategory().getBotName())).applyTo(formatter);
+
+
+                        String lastColor = "";
+                        for (String arg : message.split(" ")) {
+                            if (!YanamiBotUtil.getLastColor(arg).isEmpty()) {
+                                lastColor = YanamiBotUtil.getLastColor(arg);
+                            }
+
+                            try {
+                                Builder builder = YanamiBotUtil.toText(lastColor + language.getGeneralCategory().getMessageLinkPlaceholder() + "&r " + lastColor).toBuilder();
+                                builder.onClick(TextActions.openUrl(new URL(YanamiBotUtil.stripColor('&', arg))));
+                                builder.onHover(TextActions.showText(YanamiBotUtil.toText(language.getGeneralCategory().getMessageLinkOnHover().replaceAll("\\{link}", arg))));
+                                builder.applyTo(formatter);
+                            } catch (MalformedURLException ignored) {
+                                YanamiBotUtil.toText(lastColor + arg + "&r " + lastColor).applyTo(formatter);
+                            }
+
+                        }
 
                         Sponge.getServer().getOnlinePlayers().forEach(p -> {
-                            p.sendMessage(YanamiBotUtil.toText(
-                                    language.getGeneralCategory()
-                                            .getMessageBuilder()
-                                            .replaceAll("\\{target}", player.getName())
-                                            .replaceAll("\\{bot-name}", language.getGeneralCategory().getBotName())
-                                            .replaceAll("\\{message}", firstMatch.get().getResponses().get(new Random().nextInt(firstMatch.get().getResponses().size())))
-                            ));
+                            p.sendMessage(formatter.toText());
                         });
 
                         if (firstMatch.get().getCommands().size() > 0) {

@@ -105,9 +105,15 @@ public class LanguageConfig {
         @Setting(comment = "message raw builder\n" +
                 "variables : \n" +
                 " - {bot-name} : the bot name\n" +
-                " - {message} : bot response message\n" +
-                " - {target} : target to response to", value = "message-builder-raw")
-        protected String messageBuilderRaw = "&8[&4&lBOT&8] &8[{bot-name}&8] &f{message}";
+                " - {message} : bot response message",
+                value = "message-builder-raw")
+        protected String messageBuilderRaw = "&8[&4&lBOT&8] &8[{bot-name}&8] &f";
+
+        @Setting(comment = "message placeholder when there is a link", value = "message-link-placeholder")
+        protected String messageLinkPlaceholder = "&8[&a&o&lLink&8]";
+
+        @Setting(comment = "message placeholder when there is a link", value = "message-link-on-hover")
+        protected String messageLinkOnHover = "&a&oClick to redirect to&r &6&o&n{link}";
 
         /**
          * Gets bot name.
@@ -116,6 +122,15 @@ public class LanguageConfig {
          */
         public String getBotName() {
             return botName;
+        }
+
+        /**
+         * Gets bot name.
+         *
+         * @return the bot name
+         */
+        public String getMessageLinkPlaceholder() {
+            return messageLinkPlaceholder;
         }
 
         /**
@@ -161,6 +176,10 @@ public class LanguageConfig {
          */
         public String getMessageBuilderRaw() {
             return messageBuilderRaw;
+        }
+
+        public String getMessageLinkOnHover() {
+            return messageLinkOnHover;
         }
     }
 

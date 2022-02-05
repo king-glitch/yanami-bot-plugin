@@ -3,6 +3,7 @@ package dev.rachamon.yanamibot.utils;
 import dev.rachamon.yanamibot.YanamiBot;
 import org.spongepowered.api.Server;
 import org.spongepowered.api.command.source.ConsoleSource;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 
@@ -74,7 +75,7 @@ public class LoggerUtil {
      * @param message the message
      */
     public void raw(String message) {
-        console.sendMessage(YanamiBotUtil.toText(message));
+        console.sendMessage(Text.of(message));
     }
 
     /**
