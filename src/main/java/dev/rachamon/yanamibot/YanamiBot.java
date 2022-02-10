@@ -170,11 +170,6 @@ public class YanamiBot implements IRachamonPlugin {
         return spongeInjector;
     }
 
-    @Override
-    public void setSpongeInjector(Injector spongeInjector) {
-
-    }
-
     /**
      * Gets directory.
      *
@@ -184,10 +179,6 @@ public class YanamiBot implements IRachamonPlugin {
         return directory;
     }
 
-    @Override
-    public void setDirectory(Path directory) {
-
-    }
 
     /**
      * Gets container.
@@ -198,10 +189,6 @@ public class YanamiBot implements IRachamonPlugin {
         return container;
     }
 
-    @Override
-    public void setContainer(PluginContainer container) {
-
-    }
 
     @Override
     public SpongeCommandService getCommandService() {
@@ -389,11 +376,6 @@ public class YanamiBot implements IRachamonPlugin {
         return this.game;
     }
 
-    @Override
-    public void setGame(Game game) {
-
-    }
-
     /**
      * Gets factory.
      *
@@ -401,11 +383,6 @@ public class YanamiBot implements IRachamonPlugin {
      */
     public GuiceObjectMapperFactory getFactory() {
         return factory;
-    }
-
-    @Override
-    public void setFactory(GuiceObjectMapperFactory factory) {
-
     }
 
     /**
