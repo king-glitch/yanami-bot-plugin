@@ -1,9 +1,9 @@
 package dev.rachamon.yanamibot.managers;
 
+import dev.rachamon.api.sponge.util.TextUtil;
 import dev.rachamon.yanamibot.YanamiBot;
 import dev.rachamon.yanamibot.api.exceptions.BotCommandException;
 import dev.rachamon.yanamibot.configs.EventsConfig;
-import dev.rachamon.yanamibot.utils.YanamiBotUtil;
 import org.spongepowered.api.entity.living.player.Player;
 
 import java.util.ArrayList;
@@ -134,7 +134,7 @@ public class BotManager {
                 String.join("\n", response.getResponses()) + "\n" +
                 "commands : \n" +
                 String.join("\n", response.getCommands()) + "\n";
-        source.sendMessage(YanamiBotUtil.toText(message));
+        source.sendMessage(TextUtil.toText(message));
     }
 
     /**

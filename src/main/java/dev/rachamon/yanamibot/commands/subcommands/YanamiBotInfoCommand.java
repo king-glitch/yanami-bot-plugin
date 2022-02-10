@@ -2,7 +2,7 @@ package dev.rachamon.yanamibot.commands.subcommands;
 
 
 import dev.rachamon.yanamibot.YanamiBot;
-import dev.rachamon.yanamibot.api.command.*;
+import dev.rachamon.api.sponge.implement.command.*;
 import dev.rachamon.yanamibot.api.exceptions.BotCommandException;
 import dev.rachamon.yanamibot.commands.elements.YanamiBotGetKeysCommandElement;
 import org.spongepowered.api.command.CommandResult;

@@ -1,25 +1,27 @@
 package dev.rachamon.yanamibot.listeners;
 
+import dev.rachamon.api.sponge.util.TextUtil;
+import dev.rachamon.api.sponge.util.chatquestion.ChatQuestion;
+import dev.rachamon.api.sponge.util.chatquestion.ChatQuestionAnswer;
 import dev.rachamon.yanamibot.YanamiBot;
-import dev.rachamon.yanamibot.api.utils.ChatQuestion;
-import dev.rachamon.yanamibot.api.utils.ChatQuestionAnswer;
 import dev.rachamon.yanamibot.configs.EventsConfig;
 import dev.rachamon.yanamibot.configs.LanguageConfig;
-import dev.rachamon.yanamibot.utils.YanamiBotUtil;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.filter.cause.Root;
 import org.spongepowered.api.event.message.MessageChannelEvent;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.Text.Builder;
 import org.spongepowered.api.text.action.TextActions;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
-
-import org.spongepowered.api.text.Text.Builder;
 
 /**
  * The type Chat event listener.
@@ -66,7 +68,7 @@ public class ChatEventListener {
 
                         Builder formatter = Text.builder();
 
-                        YanamiBotUtil.toText(language.getGeneralCategory()
+                        TextUtil.toText(language.getGeneralCategory()
                                 .getMessageBuilder()
                                 .replaceAll("\\{target}", player.getName())
                                 .replaceAll("\\{bot-name}", language.getGeneralCategory().getBotName())).applyTo(formatter);
@@ -74,17 +76,17 @@ public class ChatEventListener {
 
                         String lastColor = "";
                         for (String arg : message.split(" ")) {
-                            if (!YanamiBotUtil.getLastColor(arg).isEmpty()) {
-                                lastColor = YanamiBotUtil.getLastColor(arg);
+                            if (!TextUtil.getLastColor(arg).isEmpty()) {
+                                lastColor = TextUtil.getLastColor(arg);
                             }
 
                             try {
-                                Builder builder = YanamiBotUtil.toText(lastColor + language.getGeneralCategory().getMessageLinkPlaceholder() + "&r " + lastColor).toBuilder();
-                                builder.onClick(TextActions.openUrl(new URL(YanamiBotUtil.stripColor('&', arg))));
-                                builder.onHover(TextActions.showText(YanamiBotUtil.toText(language.getGeneralCategory().getMessageLinkOnHover().replaceAll("\\{link}", arg))));
+                                Builder builder = TextUtil.toText(lastColor + language.getGeneralCategory().getMessageLinkPlaceholder() + "&r " + lastColor).toBuilder();
+                                builder.onClick(TextActions.openUrl(new URL(TextUtil.stripColor('&', arg))));
+                                builder.onHover(TextActions.showText(TextUtil.toText(language.getGeneralCategory().getMessageLinkOnHover().replaceAll("\\{link}", arg))));
                                 builder.applyTo(formatter);
                             } catch (MalformedURLException ignored) {
-                                YanamiBotUtil.toText(lastColor + arg + "&r " + lastColor).applyTo(formatter);
+                                TextUtil.toText(lastColor + arg + "&r " + lastColor).applyTo(formatter);
                             }
 
                         }
@@ -95,21 +97,19 @@ public class ChatEventListener {
 
                         if (firstMatch.get().getCommands().size() > 0) {
 
-                            ChatQuestion question = ChatQuestion.of(YanamiBotUtil.toText(language.getGeneralCategory()
+                            ChatQuestion question = ChatQuestion.of(TextUtil.toText(language.getGeneralCategory()
                                             .getMessageBuilderRaw()
                                             .replaceAll("\\{target}", player.getName())
                                             .replaceAll("\\{bot-name}", this.plugin.getLanguage().getGeneralCategory().getBotName())
                                             .replaceAll("\\{message}", language.getGeneralCategory().getRunCommandsQuestion())))
-                                    .addAnswer(ChatQuestionAnswer.of(YanamiBotUtil.toText(language.getGeneralCategory().getClickAcceptButton()), target -> {
-                                        firstMatch.get().getCommands().forEach(command -> {
-                                            this.plugin.getGame().getCommandManager().process(Sponge.getServer().getConsole(), command.replaceAll("\\{player}", player.getName()));
-                                        });
-                                    })).build();
+                                    .addAnswer(ChatQuestionAnswer.of(TextUtil.toText(language.getGeneralCategory().getClickAcceptButton()), target ->
+                                            firstMatch.get().getCommands().forEach(command ->
+                                                    this.plugin.getGame().getCommandManager().process(Sponge.getServer().getConsole(), command.replaceAll("\\{player}", player.getName()))))).build();
 
-                            question.setAlreadyResponse(YanamiBotUtil.toText(language.getQuestionCategory().getAlreadyResponded()));
-                            question.setClickToAnswer(YanamiBotUtil.toText(language.getQuestionCategory().getClickToAnswer()));
-                            question.setClickToView(YanamiBotUtil.toText(language.getQuestionCategory().getClickToView()));
-                            question.setMustBePlayer(YanamiBotUtil.toText(language.getQuestionCategory().getMustBePlayer()));
+                            question.setAlreadyResponse(TextUtil.toText(language.getQuestionCategory().getAlreadyResponded()));
+                            question.setClickToAnswer(TextUtil.toText(language.getQuestionCategory().getClickToAnswer()));
+                            question.setClickToView(TextUtil.toText(language.getQuestionCategory().getClickToView()));
+                            question.setMustBePlayer(TextUtil.toText(language.getQuestionCategory().getMustBePlayer()));
                             question.pollChat(player);
                         }
 

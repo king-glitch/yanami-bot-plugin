@@ -3,9 +3,15 @@ plugins {
 }
 
 group = 'dev.rachamon'
-version = '0.0.3-SNAPSHOT'
+version = '0.0.4-SNAPSHOT'
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+}
 
 dependencies {
+    implementation 'com.github.king-glitch:sponge-plugin-api:cf2b506'
     compileOnly 'org.spongepowered:spongeapi:7.4.0'
     annotationProcessor 'org.spongepowered:spongeapi:7.4.0'
 }

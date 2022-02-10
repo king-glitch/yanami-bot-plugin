@@ -109,9 +109,15 @@ public class LanguageConfig {
                 value = "message-builder-raw")
         protected String messageBuilderRaw = "&8[&4&lBOT&8] &8[{bot-name}&8] &f";
 
+        /**
+         * The Message link placeholder.
+         */
         @Setting(comment = "message placeholder when there is a link", value = "message-link-placeholder")
         protected String messageLinkPlaceholder = "&8[&a&o&lLink&8]";
 
+        /**
+         * The Message link on hover.
+         */
         @Setting(comment = "message placeholder when there is a link", value = "message-link-on-hover")
         protected String messageLinkOnHover = "&a&oClick to redirect to&r &6&o&n{link}";
 
@@ -178,6 +184,11 @@ public class LanguageConfig {
             return messageBuilderRaw;
         }
 
+        /**
+         * Gets message link on hover.
+         *
+         * @return the message link on hover
+         */
         public String getMessageLinkOnHover() {
             return messageLinkOnHover;
         }

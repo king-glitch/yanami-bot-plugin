@@ -1,6 +1,6 @@
 package dev.rachamon.yanamibot.commands;
 
-import dev.rachamon.yanamibot.api.command.*;
+import dev.rachamon.api.sponge.implement.command.*;
 import dev.rachamon.yanamibot.commands.subcommands.*;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.args.CommandContext;
@@ -26,7 +26,7 @@ import javax.annotation.Nonnull;
 public class YanamiBotMainCommand implements IPlayerCommand {
     @Nonnull
     @Override
-    public CommandResult execute(@Nonnull Player source, @Nonnull CommandContext args)  {
+    public CommandResult execute(@Nonnull Player source, @Nonnull CommandContext args) {
         return CommandResult.success();
     }
 }

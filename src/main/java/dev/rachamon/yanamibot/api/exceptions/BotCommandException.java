@@ -1,7 +1,7 @@
 package dev.rachamon.yanamibot.api.exceptions;
 
+import dev.rachamon.api.sponge.util.TextUtil;
 import dev.rachamon.yanamibot.YanamiBot;
-import dev.rachamon.yanamibot.utils.YanamiBotUtil;
 import org.spongepowered.api.command.CommandException;
 
 
@@ -18,7 +18,7 @@ public class BotCommandException extends CommandException {
      * @param message the message
      */
     public BotCommandException(String message) {
-        super(YanamiBotUtil.toText(plugin.getLanguage().getGeneralCategory().getPrefix() + "&c" + message));
+        super(TextUtil.toText(plugin.getLanguage().getGeneralCategory().getPrefix() + "&c" + message));
     }
 
 

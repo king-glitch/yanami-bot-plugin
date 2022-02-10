@@ -2,15 +2,15 @@ package dev.rachamon.yanamibot;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import dev.rachamon.yanamibot.api.abstracts.YanamiBotFileAbstract;
-import dev.rachamon.yanamibot.api.services.YanamiBotCommandService;
-import dev.rachamon.yanamibot.api.services.YanamiBotService;
+import dev.rachamon.api.sponge.command.SpongeCommandService;
+import dev.rachamon.api.sponge.config.SpongeAPIConfigFactory;
+import dev.rachamon.api.sponge.implement.plugin.IRachamonPlugin;
+import dev.rachamon.api.sponge.util.LoggerUtil;
 import dev.rachamon.yanamibot.configs.EventsConfig;
 import dev.rachamon.yanamibot.configs.LanguageConfig;
 import dev.rachamon.yanamibot.configs.MainConfig;
 import dev.rachamon.yanamibot.managers.BotManager;
 import dev.rachamon.yanamibot.managers.YanamiBotPluginManager;
-import dev.rachamon.yanamibot.utils.LoggerUtil;
 import ninja.leaping.configurate.objectmapping.GuiceObjectMapperFactory;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.Sponge;
@@ -30,15 +30,15 @@ import java.nio.file.Path;
  * The type Yanami bot.
  */
 @Plugin(id = "yanamibot", name = "YanamiBot", description = "Simple Response Bot", authors = {"Rachamon"})
-public class YanamiBot {
+public class YanamiBot implements IRachamonPlugin {
 
     private static YanamiBot instance;
     private static boolean isInitialized = false;
 
     private Components components;
-    private YanamiBotFileAbstract<MainConfig> config;
-    private YanamiBotFileAbstract<LanguageConfig> language;
-    private YanamiBotFileAbstract<EventsConfig> events;
+    private SpongeAPIConfigFactory<YanamiBot, MainConfig> config;
+    private SpongeAPIConfigFactory<YanamiBot, LanguageConfig> language;
+    private SpongeAPIConfigFactory<YanamiBot, EventsConfig> events;
     private LoggerUtil logger;
     private YanamiBotPluginManager yanamiBotPluginManager;
 
@@ -156,11 +156,7 @@ public class YanamiBot {
         return logger;
     }
 
-    /**
-     * Sets logger.
-     *
-     * @param logger the logger
-     */
+    @Override
     public void setLogger(LoggerUtil logger) {
         this.logger = logger;
     }
@@ -174,6 +170,11 @@ public class YanamiBot {
         return spongeInjector;
     }
 
+    @Override
+    public void setSpongeInjector(Injector spongeInjector) {
+
+    }
+
     /**
      * Gets directory.
      *
@@ -183,6 +184,11 @@ public class YanamiBot {
         return directory;
     }
 
+    @Override
+    public void setDirectory(Path directory) {
+
+    }
+
     /**
      * Gets container.
      *
@@ -190,6 +196,16 @@ public class YanamiBot {
      */
     public PluginContainer getContainer() {
         return container;
+    }
+
+    @Override
+    public void setContainer(PluginContainer container) {
+
+    }
+
+    @Override
+    public SpongeCommandService getCommandService() {
+        return SpongeCommandService.getInstance();
     }
 
     /**
@@ -251,7 +267,7 @@ public class YanamiBot {
      *
      * @param config the config
      */
-    public void setConfigManager(YanamiBotFileAbstract<MainConfig> config) {
+    public void setConfigManager(SpongeAPIConfigFactory<YanamiBot, MainConfig> config) {
         this.config = config;
     }
 
@@ -269,7 +285,7 @@ public class YanamiBot {
      *
      * @param language the language
      */
-    public void setLanguageManager(YanamiBotFileAbstract<LanguageConfig> language) {
+    public void setLanguageManager(SpongeAPIConfigFactory<YanamiBot, LanguageConfig> language) {
         this.language = language;
     }
 
@@ -333,7 +349,7 @@ public class YanamiBot {
      *
      * @return the events manager
      */
-    public YanamiBotFileAbstract<EventsConfig> getEventsManager() {
+    public SpongeAPIConfigFactory<YanamiBot, EventsConfig> getEventsManager() {
         return events;
     }
 
@@ -342,7 +358,7 @@ public class YanamiBot {
      *
      * @return the config manager
      */
-    public YanamiBotFileAbstract<MainConfig> getConfigManager() {
+    public SpongeAPIConfigFactory<YanamiBot, MainConfig> getConfigManager() {
         return config;
     }
 
@@ -351,7 +367,7 @@ public class YanamiBot {
      *
      * @return the language manager
      */
-    public YanamiBotFileAbstract<LanguageConfig> getLanguageManager() {
+    public SpongeAPIConfigFactory<YanamiBot, LanguageConfig> getLanguageManager() {
         return language;
     }
 
@@ -360,7 +376,7 @@ public class YanamiBot {
      *
      * @param events the events
      */
-    public void setEventsManager(YanamiBotFileAbstract<EventsConfig> events) {
+    public void setEventsManager(SpongeAPIConfigFactory<YanamiBot, EventsConfig> events) {
         this.events = events;
     }
 
@@ -373,13 +389,9 @@ public class YanamiBot {
         return this.game;
     }
 
-    /**
-     * Gets command service.
-     *
-     * @return the command service
-     */
-    public YanamiBotCommandService getCommandService() {
-        return YanamiBotCommandService.getInstance();
+    @Override
+    public void setGame(Game game) {
+
     }
 
     /**
@@ -391,14 +403,16 @@ public class YanamiBot {
         return factory;
     }
 
+    @Override
+    public void setFactory(GuiceObjectMapperFactory factory) {
+
+    }
+
     /**
      * The type Components.
      */
     public static class Components {
         @Inject
         private BotManager botManager;
-
-        @Inject
-        private YanamiBotService botService;
     }
 }
