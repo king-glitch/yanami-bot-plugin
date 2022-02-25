@@ -47,7 +47,11 @@ public class YanamiBotAddCommand implements IPlayerCommand, IParameterizedComman
             YanamiBot.getInstance().getBotManager().addChatRegex(key.get(), content.get());
         }
 
-        source.sendMessage(TextUtil.toText(YanamiBot.getInstance().getLanguage().getCommandCategory().getCommandAddSuccessfully()));
+        source.sendMessage(TextUtil.toText(YanamiBot
+                .getInstance()
+                .getLanguage()
+                .getCommandCategory()
+                .getCommandAddSuccessfully()));
 
         return CommandResult.success();
     }

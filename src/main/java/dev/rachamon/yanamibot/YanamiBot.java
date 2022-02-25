@@ -339,25 +339,7 @@ public class YanamiBot implements IRachamonPlugin {
     public SpongeAPIConfigFactory<YanamiBot, EventsConfig> getEventsManager() {
         return events;
     }
-
-    /**
-     * Gets config manager.
-     *
-     * @return the config manager
-     */
-    public SpongeAPIConfigFactory<YanamiBot, MainConfig> getConfigManager() {
-        return config;
-    }
-
-    /**
-     * Gets language manager.
-     *
-     * @return the language manager
-     */
-    public SpongeAPIConfigFactory<YanamiBot, LanguageConfig> getLanguageManager() {
-        return language;
-    }
-
+    
     /**
      * Sets events manager.
      *

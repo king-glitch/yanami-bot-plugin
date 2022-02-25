@@ -24,9 +24,7 @@ import java.util.Optional;
 public class YanamiBotCreateCommand implements IPlayerCommand, IParameterizedCommand {
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                GenericArguments.string(Text.of("key"))
-        };
+        return new CommandElement[]{GenericArguments.string(Text.of("key"))};
     }
 
     @Nonnull
@@ -36,7 +34,11 @@ public class YanamiBotCreateCommand implements IPlayerCommand, IParameterizedCom
         if (!key.isPresent()) return CommandResult.empty();
 
         YanamiBot.getInstance().getBotManager().create(key.get());
-        source.sendMessage(TextUtil.toText(YanamiBot.getInstance().getLanguage().getCommandCategory().getCommandCreateSuccessfully()));
+        source.sendMessage(TextUtil.toText(YanamiBot
+                .getInstance()
+                .getLanguage()
+                .getCommandCategory()
+                .getCommandCreateSuccessfully()));
 
         return CommandResult.success();
     }

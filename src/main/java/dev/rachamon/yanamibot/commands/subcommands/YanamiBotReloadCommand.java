@@ -27,7 +27,11 @@ public class YanamiBotReloadCommand implements IPlayerCommand, IParameterizedCom
     public CommandResult execute(@Nonnull Player source, @Nonnull CommandContext args) {
         try {
             YanamiBot.getInstance().getPluginManager().reload();
-            source.sendMessage(TextUtil.toText(YanamiBot.getInstance().getLanguage().getCommandCategory().getCommandReloadSuccessfully()));
+            source.sendMessage(TextUtil.toText(YanamiBot
+                    .getInstance()
+                    .getLanguage()
+                    .getCommandCategory()
+                    .getCommandReloadSuccessfully()));
 
         } catch (Exception e) {
             return CommandResult.empty();

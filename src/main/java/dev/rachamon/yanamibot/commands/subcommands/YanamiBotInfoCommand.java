@@ -23,9 +23,7 @@ import java.util.Optional;
 public class YanamiBotInfoCommand implements IPlayerCommand, IParameterizedCommand {
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                new YanamiBotGetKeysCommandElement(Text.of("key"))
-        };
+        return new CommandElement[]{new YanamiBotGetKeysCommandElement(Text.of("key"))};
     }
 
     @Nonnull

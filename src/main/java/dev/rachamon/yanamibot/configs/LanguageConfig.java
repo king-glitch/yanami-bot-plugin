@@ -92,21 +92,13 @@ public class LanguageConfig {
         /**
          * The Message builder.
          */
-        @Setting(comment = "message builder\n" +
-                "variables : \n" +
-                " - {bot-name} : the bot name\n" +
-                " - {message} : bot response message\n" +
-                " - {target} : target to response to", value = "message-builder")
+        @Setting(comment = "message builder\n" + "variables : \n" + " - {bot-name} : the bot name\n" + " - {message} : bot response message\n" + " - {target} : target to response to", value = "message-builder")
         protected String messageBuilder = "&8[&4&lBOT&8] &8[{bot-name}&8] &a&l@{target}&f, &f{message}";
 
         /**
          * The Message builder raw.
          */
-        @Setting(comment = "message raw builder\n" +
-                "variables : \n" +
-                " - {bot-name} : the bot name\n" +
-                " - {message} : bot response message",
-                value = "message-builder-raw")
+        @Setting(comment = "message raw builder\n" + "variables : \n" + " - {bot-name} : the bot name\n" + " - {message} : bot response message", value = "message-builder-raw")
         protected String messageBuilderRaw = "&8[&4&lBOT&8] &8[{bot-name}&8] &f";
 
         /**

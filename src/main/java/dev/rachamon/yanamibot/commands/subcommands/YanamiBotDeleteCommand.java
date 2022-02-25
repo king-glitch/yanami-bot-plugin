@@ -23,9 +23,7 @@ import java.util.Optional;
 public class YanamiBotDeleteCommand implements IPlayerCommand, IParameterizedCommand {
     @Override
     public CommandElement[] getArguments() {
-        return new CommandElement[]{
-                new YanamiBotGetKeysCommandElement(Text.of("key"))
-        };
+        return new CommandElement[]{new YanamiBotGetKeysCommandElement(Text.of("key"))};
     }
 
     @Nonnull
@@ -36,7 +34,11 @@ public class YanamiBotDeleteCommand implements IPlayerCommand, IParameterizedCom
         if (!key.isPresent()) return CommandResult.empty();
 
         YanamiBot.getInstance().getBotManager().delete(key.get());
-        source.sendMessage(TextUtil.toText(YanamiBot.getInstance().getLanguage().getCommandCategory().getCommandDeleteSuccessfully()));
+        source.sendMessage(TextUtil.toText(YanamiBot
+                .getInstance()
+                .getLanguage()
+                .getCommandCategory()
+                .getCommandDeleteSuccessfully()));
 
         return CommandResult.success();
     }

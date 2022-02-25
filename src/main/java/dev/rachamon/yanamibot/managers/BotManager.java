@@ -126,14 +126,7 @@ public class BotManager {
      */
     public void printChatResponse(Player source, String key) throws BotCommandException {
         EventsConfig.ChatResponse response = this.getChatResponse(key);
-        String message = "" +
-                "permission : " + response.getPermission() + "\n" +
-                "regexes : \n" +
-                String.join("\n", response.getRegexes()) + "\n" +
-                "responses : \n" +
-                String.join("\n", response.getResponses()) + "\n" +
-                "commands : \n" +
-                String.join("\n", response.getCommands()) + "\n";
+        String message = "" + "permission : " + response.getPermission() + "\n" + "regexes : \n" + String.join("\n", response.getRegexes()) + "\n" + "responses : \n" + String.join("\n", response.getResponses()) + "\n" + "commands : \n" + String.join("\n", response.getCommands()) + "\n";
         source.sendMessage(TextUtil.toText(message));
     }
 
@@ -159,7 +152,11 @@ public class BotManager {
         EventsConfig.ChatResponse response = YanamiBot.getInstance().getEventsConfig().getChatResponses().get(key);
 
         if (response != null) throw new BotCommandException("this key already exist");
-        YanamiBot.getInstance().getEventsConfig().getChatResponses().put(key, new EventsConfig.ChatResponse("", new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
+        YanamiBot
+                .getInstance()
+                .getEventsConfig()
+                .getChatResponses()
+                .put(key, new EventsConfig.ChatResponse("", new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
         this.save();
 
     }
@@ -169,10 +166,12 @@ public class BotManager {
      */
     public void save() {
         try {
-            YanamiBot.getInstance().getEventsManager().save(
-                    YanamiBot.getInstance().getEventsManager().getClazzType(),
-                    YanamiBot.getInstance().getEventsConfig()
-            );
+            YanamiBot
+                    .getInstance()
+                    .getEventsManager()
+                    .save(YanamiBot.getInstance().getEventsManager().getClazzType(), YanamiBot
+                            .getInstance()
+                            .getEventsConfig());
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -11,15 +11,7 @@ import javax.annotation.Nonnull;
 /**
  * The type Yanami bot main command.
  */
-@ICommandChildren({
-        YanamiBotAddCommand.class,
-        YanamiBotReloadCommand.class,
-        YanamiBotRemoveCommand.class,
-        YanamiBotSetCommand.class,
-        YanamiBotInfoCommand.class,
-        YanamiBotCreateCommand.class,
-        YanamiBotDeleteCommand.class
-})
+@ICommandChildren({YanamiBotAddCommand.class, YanamiBotReloadCommand.class, YanamiBotRemoveCommand.class, YanamiBotSetCommand.class, YanamiBotInfoCommand.class, YanamiBotCreateCommand.class, YanamiBotDeleteCommand.class})
 @ICommandAliases({"bot", "yanamibot"})
 @ICommandHelpText(title = "Main Bot Help", command = "help")
 @ICommandPermission("yanamibot.command.base")

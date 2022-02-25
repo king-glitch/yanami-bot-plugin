@@ -87,19 +87,39 @@ public class YanamiBotPluginManager {
         this.plugin.setLanguageManager(language);
 
 
-        this.plugin.setMainConfig(config.setHeader("Main Config").setClazz(new MainConfig()).setClazzType(MainConfig.class).build());
+        this.plugin.setMainConfig(config
+                .setHeader("Main Config")
+                .setClazz(new MainConfig())
+                .setClazzType(MainConfig.class)
+                .build());
 
-        this.plugin.setLanguageConfig(language.setHeader("Language Config").setClazz(new LanguageConfig()).setClazzType(LanguageConfig.class).build());
+        this.plugin.setLanguageConfig(language
+                .setHeader("Language Config")
+                .setClazz(new LanguageConfig())
+                .setClazzType(LanguageConfig.class)
+                .build());
 
-        this.plugin.setEventsConfig(events.setHeader("Bot Response Events Config").setClazz(new EventsConfig()).setClazzType(EventsConfig.class).build());
+        this.plugin.setEventsConfig(events
+                .setHeader("Bot Response Events Config")
+                .setClazz(new EventsConfig())
+                .setClazzType(EventsConfig.class)
+                .build());
 
-        this.plugin.getEventsManager().getConfigRoot().getNode("chat-responses").getChildrenMap().forEach((key, value) -> {
-            String permission = (String) value.getNode("permission").getValue();
-            List<String> regexes = (List<String>) value.getNode("regexes").getValue();
-            List<String> responses = (List<String>) value.getNode("responses").getValue();
-            List<String> commands = (List<String>) value.getNode("commands").getValue();
+        this.plugin
+                .getEventsManager()
+                .getConfigRoot()
+                .getNode("chat-responses")
+                .getChildrenMap()
+                .forEach((key, value) -> {
+                    String permission = (String) value.getNode("permission").getValue();
+                    List<String> regexes = (List<String>) value.getNode("regexes").getValue();
+                    List<String> responses = (List<String>) value.getNode("responses").getValue();
+                    List<String> commands = (List<String>) value.getNode("commands").getValue();
 
-            this.plugin.getEventsConfig().getChatResponses().put((String) key, new EventsConfig.ChatResponse(permission, regexes, responses, commands));
-        });
+                    this.plugin
+                            .getEventsConfig()
+                            .getChatResponses()
+                            .put((String) key, new EventsConfig.ChatResponse(permission, regexes, responses, commands));
+                });
     }
 }

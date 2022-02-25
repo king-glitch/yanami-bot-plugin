@@ -46,7 +46,11 @@ public class YanamiBotRemoveCommand implements IPlayerCommand, IParameterizedCom
             YanamiBot.getInstance().getBotManager().removeChatRegex(key.get(), content.get());
         }
 
-        source.sendMessage(TextUtil.toText(YanamiBot.getInstance().getLanguage().getCommandCategory().getCommandRemoveSuccessfully()));
+        source.sendMessage(TextUtil.toText(YanamiBot
+                .getInstance()
+                .getLanguage()
+                .getCommandCategory()
+                .getCommandRemoveSuccessfully()));
 
 
         return CommandResult.success();
