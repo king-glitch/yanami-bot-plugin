@@ -122,9 +122,7 @@ public class ChatEventListener {
 
                 }
 
-                Sponge.getServer().getOnlinePlayers().forEach(p -> {
-                    p.sendMessage(formatter.toText());
-                });
+                Sponge.getServer().getOnlinePlayers().forEach(p -> p.sendMessage(formatter.toText()));
 
                 if (firstMatch.get().getCommands().size() > 0) {
 

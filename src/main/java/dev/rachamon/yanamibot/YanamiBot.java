@@ -72,8 +72,11 @@ public class YanamiBot extends RachamonSpongePluginProvider implements IRachamon
     @Inject
     private PluginContainer container;
 
+    /**
+     * Instantiates a new Yanami bot.
+     */
     public YanamiBot() {
-        super("YanamiBot");
+        super("YanamiBot", Sponge.getServer());
     }
 
     /**
@@ -84,7 +87,6 @@ public class YanamiBot extends RachamonSpongePluginProvider implements IRachamon
     @Listener
     public void onPreInitialize(GamePreInitializationEvent event) {
         instance = this;
-        this.setLogger(new LoggerUtil(Sponge.getServer(), false));
         this.setYanamiBotPluginManager(new YanamiBotPluginManager());
 
         this.getPluginManager().preInitialize();
@@ -162,6 +164,11 @@ public class YanamiBot extends RachamonSpongePluginProvider implements IRachamon
         return logger;
     }
 
+    /**
+     * Sets logger.
+     *
+     * @param logger the logger
+     */
     public void setLogger(LoggerUtil logger) {
         this.logger = logger;
     }

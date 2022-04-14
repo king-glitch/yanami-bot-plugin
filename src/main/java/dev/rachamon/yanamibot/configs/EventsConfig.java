@@ -21,12 +21,24 @@ public class EventsConfig {
      */
     @ConfigSerializable
     public static class ChatResponse {
+        /**
+         * The Permission.
+         */
         @Setting(value = "permission")
         protected String permission;
+        /**
+         * The Responses.
+         */
         @Setting(value = "responses")
         protected List<String> responses;
+        /**
+         * The Regexes.
+         */
         @Setting(value = "regexes")
         protected List<String> regexes;
+        /**
+         * The Commands.
+         */
         @Setting(value = "commands")
         protected List<String> commands;
 
@@ -108,9 +120,9 @@ public class EventsConfig {
     }
 
     private Map<String, ChatResponse> defaultChatResponses() {
-        Map<String, ChatResponse> list = new HashMap<>();
-        list.put("hello", new ChatResponse("", Arrays.asList("(hello|hi)", "how are you"), Arrays.asList("Hello World", "Hi!"), new ArrayList<>()));
-        return list;
+        return new HashMap<String, ChatResponse>() {{
+            put("hello", new ChatResponse("", Arrays.asList("(hello|hi)", "how are you"), Arrays.asList("Hello World", "Hi!"), new ArrayList<>()));
+        }};
     }
 
 }
