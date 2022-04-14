@@ -106,6 +106,23 @@ public class YanamiBotPluginManager implements IRachamonPluginManager {
                 .setClazzType(EventsConfig.class)
                 .build());
 
+        this.plugin
+                .getEventsManager()
+                .getConfigRoot()
+                .getNode("chat-responses")
+                .getChildrenMap()
+                .forEach((key, value) -> {
+                    String permission = (String) value.getNode("permission").getValue();
+                    List<String> regexes = (List<String>) value.getNode("regexes").getValue();
+                    List<String> responses = (List<String>) value.getNode("responses").getValue();
+                    List<String> commands = (List<String>) value.getNode("commands").getValue();
+
+                    this.plugin
+                            .getEventsConfig()
+                            .getChatResponses()
+                            .put((String) key, new EventsConfig.ChatResponse(permission, regexes, responses, commands));
+                });
+
         this.plugin.getLogger().setDebug(this.plugin.getConfig().getMainCategorySetting().isDebug());
     }
 }
