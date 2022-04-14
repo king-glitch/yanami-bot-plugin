@@ -5,6 +5,8 @@ import com.google.inject.Injector;
 import dev.rachamon.api.sponge.command.SpongeCommandService;
 import dev.rachamon.api.sponge.config.SpongeAPIConfigFactory;
 import dev.rachamon.api.sponge.implement.plugin.IRachamonPlugin;
+import dev.rachamon.api.sponge.implement.plugin.IRachamonPluginManager;
+import dev.rachamon.api.sponge.provider.RachamonSpongePluginProvider;
 import dev.rachamon.api.sponge.util.LoggerUtil;
 import dev.rachamon.yanamibot.configs.EventsConfig;
 import dev.rachamon.yanamibot.configs.LanguageConfig;
@@ -30,7 +32,7 @@ import java.nio.file.Path;
  * The type Yanami bot.
  */
 @Plugin(id = "yanamibot", name = "YanamiBot", description = "Simple Response Bot", authors = {"Rachamon"})
-public class YanamiBot implements IRachamonPlugin {
+public class YanamiBot extends RachamonSpongePluginProvider implements IRachamonPlugin {
 
     private static YanamiBot instance;
     private static boolean isInitialized = false;
@@ -61,7 +63,7 @@ public class YanamiBot implements IRachamonPlugin {
     Game game;
 
     @Inject
-    private Injector botInjector;
+    private Injector pluginInjector;
 
     @Inject
     @ConfigDir(sharedRoot = false)
@@ -69,6 +71,10 @@ public class YanamiBot implements IRachamonPlugin {
 
     @Inject
     private PluginContainer container;
+
+    public YanamiBot() {
+        super("YanamiBot");
+    }
 
     /**
      * On pre initialize.
@@ -78,7 +84,7 @@ public class YanamiBot implements IRachamonPlugin {
     @Listener
     public void onPreInitialize(GamePreInitializationEvent event) {
         instance = this;
-        this.setLogger(new LoggerUtil(Sponge.getServer()));
+        this.setLogger(new LoggerUtil(Sponge.getServer(), false));
         this.setYanamiBotPluginManager(new YanamiBotPluginManager());
 
         this.getPluginManager().preInitialize();
@@ -128,14 +134,14 @@ public class YanamiBot implements IRachamonPlugin {
         return instance;
     }
 
-
-    /**
-     * Is initialized boolean.
-     *
-     * @return the boolean
-     */
+    @Override
     public boolean isInitialized() {
-        return isInitialized;
+        return YanamiBot.isInitialized;
+    }
+
+    @Override
+    public void setInitialized(boolean isInitialized) {
+        YanamiBot.isInitialized = isInitialized;
     }
 
     /**
@@ -156,7 +162,6 @@ public class YanamiBot implements IRachamonPlugin {
         return logger;
     }
 
-    @Override
     public void setLogger(LoggerUtil logger) {
         this.logger = logger;
     }
@@ -200,17 +205,18 @@ public class YanamiBot implements IRachamonPlugin {
      *
      * @return the bot injector
      */
-    public Injector getBotInjector() {
-        return botInjector;
+    @Override
+    public Injector getPluginInjector() {
+        return pluginInjector;
     }
 
     /**
      * Sets bot injector.
      *
-     * @param botInjector the bot injector
+     * @param pluginInjector the bot injector
      */
-    public void setBotInjector(Injector botInjector) {
-        this.botInjector = botInjector;
+    public void setPluginInjector(Injector pluginInjector) {
+        this.pluginInjector = pluginInjector;
     }
 
     /**
@@ -282,7 +288,7 @@ public class YanamiBot implements IRachamonPlugin {
      *
      * @return the plugin manager
      */
-    public YanamiBotPluginManager getPluginManager() {
+    public IRachamonPluginManager getPluginManager() {
         return yanamiBotPluginManager;
     }
 
@@ -339,7 +345,7 @@ public class YanamiBot implements IRachamonPlugin {
     public SpongeAPIConfigFactory<YanamiBot, EventsConfig> getEventsManager() {
         return events;
     }
-    
+
     /**
      * Sets events manager.
      *

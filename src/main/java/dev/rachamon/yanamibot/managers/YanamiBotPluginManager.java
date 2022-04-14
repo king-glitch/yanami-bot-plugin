@@ -2,6 +2,7 @@ package dev.rachamon.yanamibot.managers;
 
 import dev.rachamon.api.sponge.config.SpongeAPIConfigFactory;
 import dev.rachamon.api.sponge.exception.AnnotatedCommandException;
+import dev.rachamon.api.sponge.implement.plugin.IRachamonPluginManager;
 import dev.rachamon.yanamibot.YanamiBot;
 import dev.rachamon.yanamibot.YanamiBotModule;
 import dev.rachamon.yanamibot.commands.YanamiBotMainCommand;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * The type Yanami bot plugin manager.
  */
-public class YanamiBotPluginManager {
+public class YanamiBotPluginManager implements IRachamonPluginManager {
     private final YanamiBot plugin = YanamiBot.getInstance();
 
 
@@ -24,8 +25,8 @@ public class YanamiBotPluginManager {
      */
     public void initialize() {
         this.plugin.setComponents(new YanamiBot.Components());
-        this.plugin.setBotInjector(this.plugin.getSpongeInjector().createChildInjector(new YanamiBotModule()));
-        this.plugin.getBotInjector().injectMembers(this.plugin.getComponents());
+        this.plugin.setPluginInjector(this.plugin.getSpongeInjector().createChildInjector(new YanamiBotModule()));
+        this.plugin.getPluginInjector().injectMembers(this.plugin.getComponents());
         this.plugin.setIsInitialized(true);
     }
 
@@ -105,21 +106,6 @@ public class YanamiBotPluginManager {
                 .setClazzType(EventsConfig.class)
                 .build());
 
-        this.plugin
-                .getEventsManager()
-                .getConfigRoot()
-                .getNode("chat-responses")
-                .getChildrenMap()
-                .forEach((key, value) -> {
-                    String permission = (String) value.getNode("permission").getValue();
-                    List<String> regexes = (List<String>) value.getNode("regexes").getValue();
-                    List<String> responses = (List<String>) value.getNode("responses").getValue();
-                    List<String> commands = (List<String>) value.getNode("commands").getValue();
-
-                    this.plugin
-                            .getEventsConfig()
-                            .getChatResponses()
-                            .put((String) key, new EventsConfig.ChatResponse(permission, regexes, responses, commands));
-                });
+        this.plugin.getLogger().setDebug(this.plugin.getConfig().getMainCategorySetting().isDebug());
     }
 }

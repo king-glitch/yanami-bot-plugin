@@ -14,7 +14,7 @@ public class EventsConfig {
      * The Chat responses.
      */
     @Setting(value = "chat-responses", comment = "Chat Responses")
-    protected Map<String, ChatResponse> chatResponses = defaultChatResponses();
+    protected Map<String, ChatResponse> chatResponses = this.defaultChatResponses();
 
     /**
      * The type Chat response.
@@ -22,13 +22,13 @@ public class EventsConfig {
     @ConfigSerializable
     public static class ChatResponse {
         @Setting(value = "permission")
-        private String permission;
+        protected String permission;
         @Setting(value = "responses")
-        private List<String> responses;
+        protected List<String> responses;
         @Setting(value = "regexes")
-        private List<String> regexes;
+        protected List<String> regexes;
         @Setting(value = "commands")
-        private List<String> commands;
+        protected List<String> commands;
 
         /**
          * Instantiates a new Chat response.
